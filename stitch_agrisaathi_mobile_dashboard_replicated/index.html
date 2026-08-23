@@ -1,0 +1,774 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AgriSaathi Farm Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDY-3rAKuQlTqmkpceYNxkjMlpLi2inY-0&libraries=places"></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Primary navigation">
+        <a class="brand" href="#dashboard" aria-label="AgriSaathi dashboard">
+          <span class="brand-mark material-symbols-outlined fill">agriculture</span>
+          <span>
+            <strong>AgriSaathi</strong>
+            <small>Modern Farming Companion</small>
+          </span>
+        </a>
+
+        <nav class="nav-list">
+          <button class="nav-item active" type="button" data-page-target="dashboard">
+            <span class="material-symbols-outlined fill">dashboard</span>
+            <span>Dashboard</span>
+          </button>
+          <button class="nav-item" type="button" data-page-target="weather">
+            <span class="material-symbols-outlined">partly_cloudy_day</span>
+            <span>Weather</span>
+          </button>
+          <button class="nav-item" type="button" data-page-target="markets">
+            <span class="material-symbols-outlined">trending_up</span>
+            <span>Markets</span>
+          </button>
+          <button class="nav-item" type="button" data-page-target="crop">
+            <span class="material-symbols-outlined">biotech</span>
+            <span>Crop Health</span>
+          </button>
+          <button class="nav-item" type="button" data-page-target="schemes">
+            <span class="material-symbols-outlined">account_balance</span>
+            <span>Schemes</span>
+          </button>
+          <button class="nav-item" type="button" data-page-target="news">
+            <span class="material-symbols-outlined">newspaper</span>
+            <span>News</span>
+          </button>
+        </nav>
+
+        <div class="farmer-card">
+          <div class="avatar" aria-hidden="true">RK</div>
+          <div>
+            <strong>Ramesh Kumar</strong>
+            <small>3.2 acres • Paddy</small>
+          </div>
+        </div>
+      </aside>
+
+      <div class="workspace">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow" id="location-label">Guntur, Andhra Pradesh</p>
+            <h1 id="page-title">Farm Dashboard</h1>
+          </div>
+          <div class="topbar-actions" style="position: relative;">
+
+            <button class="icon-button" type="button" aria-label="Notifications" id="notification-btn">
+              <span class="material-symbols-outlined">notifications</span>
+              <span class="badge" id="notification-badge" style="display: none;">1</span>
+            </button>
+            <div id="notification-dropdown" class="card" style="display: none; position: absolute; top: 50px; right: 0; width: 320px; z-index: 100; max-height: 400px; overflow-y: auto; background: #ffffff; backdrop-filter: none; border: 1px solid rgba(0,0,0,0.1); box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+              <h3 style="margin: 0 0 12px 0; font-size: 1rem;">Notifications</h3>
+              <div id="notification-list">
+                <p class="muted">No new notifications.</p>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <main class="content">
+          <section class="page active" data-page="dashboard" aria-labelledby="dashboard-title">
+            <div class="page-heading">
+              <div>
+                <p class="eyebrow">Good morning</p>
+                <h2 id="dashboard-title" data-weather-headline>Your farm is stable, but rain may change today’s work.</h2>
+              </div>
+            </div>
+
+            <div class="metric-strip">
+              <article class="metric-card">
+                <span class="material-symbols-outlined">yard</span>
+                <p>Crop Stage</p>
+                <strong>Tillering</strong>
+              </article>
+              <article class="metric-card blue">
+                <span class="material-symbols-outlined">water_drop</span>
+                <p>Rain Chance</p>
+                <strong data-rain-chance>65%</strong>
+              </article>
+              <article class="metric-card orange">
+                <span class="material-symbols-outlined">warning</span>
+                <p>Alerts</p>
+                <strong data-weather-alert-count>2 Active</strong>
+              </article>
+              <article class="metric-card">
+                <span class="material-symbols-outlined">currency_rupee</span>
+                <p>Best Mandi</p>
+                <strong>Rs 2,310</strong>
+              </article>
+            </div>
+
+            <div class="dashboard-grid">
+              <article class="card farm-visual">
+                <div>
+                  <p class="eyebrow">My Farm</p>
+                  <h3>Paddy field, 3.2 acres</h3>
+                  <p class="muted">NDVI trend is improving after last week’s nutrient application.</p>
+                </div>
+                <div class="field-scene" aria-hidden="true">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+              </article>
+
+              <article class="card weather-card">
+                <div class="card-title-row">
+                  <div>
+                    <p class="eyebrow">Weather Intelligence</p>
+                    <h3 data-dashboard-weather-summary>31°C • Partly cloudy</h3>
+                  </div>
+                  <span class="material-symbols-outlined fill weather-icon" data-weather-icon>partly_cloudy_day</span>
+                </div>
+                <div class="alert-band">
+                  <span class="material-symbols-outlined fill">warning</span>
+                  <span data-weather-alert-text>Moderate rainfall expected this afternoon. Postpone irrigation.</span>
+                </div>
+                <div class="forecast-row" aria-label="Five day forecast" data-dashboard-forecast>
+                  <span>Mon <b>33°</b></span>
+                  <span>Tue <b>29°</b></span>
+                  <span>Wed <b>30°</b></span>
+                  <span>Thu <b>32°</b></span>
+                  <span>Fri <b>34°</b></span>
+                </div>
+              </article>
+
+              <article class="card">
+                <div class="card-title-row">
+                  <div>
+                    <p class="eyebrow">Market Watch</p>
+                    <h3>Paddy prices nearby</h3>
+                  </div>
+                  <span class="chip">Live</span>
+                </div>
+                <div class="market-list">
+                  <div><span>Azadpur Mandi</span><strong>Rs 2,150/qtl</strong><em>+2.5%</em></div>
+                  <div><span>Narela Mandi</span><strong>Rs 2,110/qtl</strong><em class="down">-0.8%</em></div>
+                  <div><span>Najafgarh Mandi</span><strong>Rs 2,090/qtl</strong><em>0.0%</em></div>
+                </div>
+              </article>
+
+              <article class="card advisory-card">
+                <span class="material-symbols-outlined fill">psychology</span>
+                <div>
+                  <p class="eyebrow">Smart Advisory</p>
+                  <h3 data-advisory-title>Postpone irrigation</h3>
+                  <p class="muted" data-advisory-text>Rain probability is high enough to risk waterlogging in the paddy block. Resume irrigation only if rainfall is below 8 mm.</p>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <section class="page" data-page="weather" aria-labelledby="weather-title">
+            <div class="page-heading">
+              <div>
+                <p class="eyebrow">Field weather</p>
+                <h2 id="weather-title">Plan operations around rainfall, heat, and wind.</h2>
+              </div>
+              <button class="secondary-button" type="button" id="refresh-weather">
+                <span class="material-symbols-outlined">my_location</span>
+                Use My Location
+              </button>
+            </div>
+            <div class="split-grid">
+              <article class="card current-weather">
+                <div class="temperature-lockup">
+                  <span class="material-symbols-outlined fill" data-weather-icon>partly_cloudy_day</span>
+                  <div><strong data-current-temp>31°C</strong><p data-current-summary>Partly Cloudy • Updated 10 min ago</p></div>
+                </div>
+                <div class="weather-stats">
+                  <span>Humidity <b data-humidity>76%</b></span>
+                  <span>Wind <b data-wind>14 km/h</b></span>
+                  <span>Pressure <b data-pressure>1012 hPa</b></span>
+                  <span>Visibility <b data-visibility>10 km</b></span>
+                </div>
+                <p class="weather-status" id="weather-status">Loading live weather...</p>
+              </article>
+              <article class="card alert-panel">
+                <p class="eyebrow">Critical Alerts</p>
+                <h3 data-alert-title>Heatwave watch</h3>
+                <p class="muted" data-alert-detail>Temperatures may exceed 38°C for the next 3 days. Keep irrigation reserves ready for sensitive plots.</p>
+              </article>
+            </div>
+            <article class="card table-card">
+              <div class="card-title-row">
+                <h3>10-Day Forecast</h3>
+                <span class="chip blue">Field ready</span>
+              </div>
+              <div class="forecast-table" data-forecast-table>
+                <div><b>Today</b><span>Partly Cloudy</span><strong>32° / 24°</strong><em>10% rain</em></div>
+                <div><b>Tomorrow</b><span>Sunny</span><strong>34° / 25°</strong><em>0% rain</em></div>
+                <div><b>Wed</b><span>Light Rain</span><strong>29° / 23°</strong><em>60% rain</em></div>
+                <div><b>Thu</b><span>Cloudy</span><strong>30° / 24°</strong><em>20% rain</em></div>
+                <div><b>Fri</b><span>Partly Cloudy</span><strong>31° / 24°</strong><em>15% rain</em></div>
+              </div>
+            </article>
+          </section>
+
+          <section class="page" data-page="markets" aria-labelledby="markets-title">
+            <div class="page-heading">
+              <div>
+                <p class="eyebrow">Market analytics</p>
+                <h2 id="markets-title">Compare mandi prices before selling.</h2>
+              </div>
+              <select id="market-crop-select" class="select-control" aria-label="Commodity">
+                <optgroup label="Cereals & Cash Crops">
+                  <option value="Paddy">Paddy</option>
+                  <option value="Wheat">Wheat</option>
+                  <option value="Maize">Maize (Corn)</option>
+                  <option value="Sugarcane">Sugarcane</option>
+                  <option value="Cotton">Cotton</option>
+                  <option value="Jute">Jute</option>
+                </optgroup>
+                <optgroup label="Oilseeds">
+                  <option value="Soybean">Soybean</option>
+                  <option value="Groundnut">Groundnut</option>
+                  <option value="Mustard">Mustard Seed</option>
+                  <option value="Sunflower">Sunflower Seed</option>
+                  <option value="Castor">Castor Seed</option>
+                </optgroup>
+                <optgroup label="Millets">
+                  <option value="Jowar">Jowar</option>
+                  <option value="Bajra">Bajra</option>
+                  <option value="Ragi">Ragi</option>
+                  <option value="Barley">Barley</option>
+                </optgroup>
+                <optgroup label="Vegetables">
+                  <option value="Onion">Onion</option>
+                  <option value="Potato">Potato</option>
+                  <option value="Tomato">Tomato</option>
+                </optgroup>
+                <optgroup label="Spices">
+                  <option value="Chilli">Dry Red Chilli</option>
+                  <option value="Turmeric">Turmeric</option>
+                  <option value="Jeera">Jeera</option>
+                  <option value="Coriander">Coriander Seed</option>
+                </optgroup>
+              </select>
+            </div>
+            <div class="market-layout" style="max-width: 700px;">
+              <article class="card sentiment-card" id="dynamic-price-card">
+                <div class="card-title-row">
+                  <div>
+                    <p class="eyebrow" id="market-eyebrow">Market sentiment</p>
+                    <h3 id="market-sentiment-title">Analyzing...</h3>
+                  </div>
+                  <span class="chip" id="market-trend-chip">---</span>
+                </div>
+                <p class="muted" id="market-sentiment-desc">Fetching live market data for selected crop...</p>
+                <strong class="price-callout" id="market-price">Rs --</strong>
+                <span id="market-price-subtitle">Top price today</span>
+              </article>
+            </div>
+            <div class="map-wrapper">
+              <div class="map-search-overlay">
+                <span class="material-symbols-outlined" id="map-search-btn" style="cursor: pointer;">search</span>
+                <input type="search" id="map-search-input" placeholder="Search farming services, repair shops, or mandis..." />
+              </div>
+              <div id="markets-map" class="markets-map" aria-label="Map showing nearby agricultural facilities"></div>
+            </div>
+            <div class="map-quick-filters">
+              <span class="muted">Quick filters:</span>
+              <button type="button" class="chip active" id="map-filter-rbk">Rythu Bharosa Kendrams</button>
+              <button type="button" class="chip" id="map-filter-market">Crop Markets</button>
+            </div>
+          </section>
+
+          <section class="page" data-page="crop" aria-labelledby="crop-title">
+            <div class="page-heading">
+              <div>
+                <p class="eyebrow">Crop health lab</p>
+                <h2 id="crop-title">Upload leaf imagery for quick diagnosis.</h2>
+              </div>
+              <div style="display: flex; gap: 12px; align-items: center;">
+                <select id="crop-selector" class="select-control" aria-label="Crop">
+                  <optgroup label="Cereals & Cash Crops">
+                    <option value="Paddy">Paddy</option>
+                    <option value="Wheat">Wheat</option>
+                    <option value="Maize">Maize (Corn)</option>
+                    <option value="Sugarcane">Sugarcane</option>
+                    <option value="Cotton">Cotton</option>
+                    <option value="Jute">Jute</option>
+                  </optgroup>
+                  <optgroup label="Oilseeds">
+                    <option value="Soybean">Soybean</option>
+                    <option value="Groundnut">Groundnut</option>
+                    <option value="Mustard">Mustard Seed</option>
+                    <option value="Sunflower">Sunflower Seed</option>
+                    <option value="Castor">Castor Seed</option>
+                  </optgroup>
+                  <optgroup label="Millets">
+                    <option value="Jowar">Jowar</option>
+                    <option value="Bajra">Bajra</option>
+                    <option value="Ragi">Ragi</option>
+                    <option value="Barley">Barley</option>
+                  </optgroup>
+                  <optgroup label="Vegetables">
+                    <option value="Onion">Onion</option>
+                    <option value="Potato">Potato</option>
+                    <option value="Tomato">Tomato</option>
+                  </optgroup>
+                  <optgroup label="Spices">
+                    <option value="Chilli">Dry Red Chilli</option>
+                    <option value="Turmeric">Turmeric</option>
+                    <option value="Jeera">Jeera</option>
+                    <option value="Coriander">Coriander Seed</option>
+                  </optgroup>
+                </select>
+                <button class="primary-button" type="button" id="analyze-button" disabled>
+                  <span class="material-symbols-outlined">memory</span>
+                  Analyze
+                </button>
+              </div>
+            </div>
+            <div class="crop-layout" style="display: grid; gap: 24px;">
+              <article class="card upload-card">
+                <label class="upload-zone" id="upload-zone" style="cursor: pointer;">
+                  <input type="file" id="crop-image-upload" accept="image/*" capture="environment" hidden />
+                  <span class="material-symbols-outlined">add_a_photo</span>
+                  <h3 id="upload-title">Upload Leaf Photo</h3>
+                  <p id="upload-desc">Use a clear image with the affected area in natural light.</p>
+                </label>
+              </article>
+              <article class="card diagnosis-card" id="diagnosis-card" hidden>
+                <span class="chip orange" id="diagnosis-status">Analyzing...</span>
+                <h3 id="diagnosis-title">Awaiting Image</h3>
+                <p class="muted" id="diagnosis-desc">Upload a leaf photo to receive a health report and suggestions.</p>
+                <div class="tag-row" id="diagnosis-tags"></div>
+              </article>
+            </div>
+          </section>
+
+          <!-- Schemes Page -->
+          <section class="page" data-page="schemes" aria-labelledby="schemes-title">
+            <div class="news-page-container">
+              <div class="schemes-toolbar">
+                <div>
+                  <p class="eyebrow" style="margin-bottom: 4px;">Government Schemes & Financial Assistance</p>
+                  <h2 id="schemes-title" style="margin: 0; font-size: 1.4rem; font-weight: 700;">Subsidies & Support Matched for Your Farm</h2>
+                </div>
+                <div class="schemes-search-bar">
+                  <span class="material-symbols-outlined" style="color: var(--text-muted); font-size: 20px;">search</span>
+                  <button id="schemes-search-btn" class="ml-2 px-3 py-1 bg-primary text-on-primary rounded" type="button">Search</button>
+                  <input type="search" id="schemes-search-input" placeholder="Search schemes by name, benefit, or category..." />
+                </div>
+              </div>
+
+              <!-- Filter Tabs -->
+              <div class="schemes-tabs-bar" id="schemes-tab-bar">
+                <button class="scheme-tab-chip active" data-scheme-tab="all">
+                  <span class="material-symbols-outlined" style="font-size: 17px;">grid_view</span>
+                  All Schemes (10)
+                </button>
+                <button class="scheme-tab-chip" data-scheme-tab="financial">
+                  <span class="material-symbols-outlined" style="font-size: 17px;">payments</span>
+                  Financial & Income Support
+                </button>
+                <button class="scheme-tab-chip" data-scheme-tab="credit">
+                  <span class="material-symbols-outlined" style="font-size: 17px;">shield</span>
+                  Credit & Crop Insurance
+                </button>
+                <button class="scheme-tab-chip" data-scheme-tab="tech">
+                  <span class="material-symbols-outlined" style="font-size: 17px;">precision_manufacturing</span>
+                  Technology & Solar
+                </button>
+              </div>
+
+              <div class="scheme-directory" id="scheme-directory">
+                <!-- Section 1: Financial & Income Support -->
+                <section class="scheme-category" data-cat-section="financial" aria-labelledby="financial-support-title">
+                  <div class="scheme-category-title-row">
+                    <div class="scheme-category-icon-box">
+                      <span class="material-symbols-outlined" style="font-size: 22px;">payments</span>
+                    </div>
+                    <div>
+                      <h3 id="financial-support-title" style="font-size: 1.15rem; margin: 0;">Financial & Direct Income Support</h3>
+                      <p class="muted" style="margin: 2px 0 0; font-size: 0.85rem;">Direct cash transfers, price assurance, and pension safety nets for farmers.</p>
+                    </div>
+                  </div>
+                  <div class="scheme-grid">
+                    <article class="scheme-card eligible" data-scheme-name="pm-kisan income support 6000">
+                      <div>
+                        <div class="scheme-card-header">
+                          <span class="scheme-badge scheme-badge-green">
+                            <span class="material-symbols-outlined" style="font-size: 14px;">check_circle</span>
+                            Pre-Eligible
+                          </span>
+                          <span class="muted" style="font-size: 0.78rem;">Direct Transfer</span>
+                        </div>
+                        <h3>PM-KISAN Yojana</h3>
+                        <p>Provides ₹6,000 per year in three equal installments directly into verified farmer bank accounts.</p>
+                        <div class="scheme-benefit-box">
+                          <span class="material-symbols-outlined" style="font-size: 18px;">monetization_on</span>
+                          <span>Benefit: ₹6,000 / Year (₹2,000 every 4 months)</span>
+                        </div>
+                      </div>
+                      <div class="scheme-card-footer">
+                        <a href="https://pmkisan.gov.in/" target="_blank" rel="noreferrer">
+                          Apply / View Portal
+                          <span class="material-symbols-outlined" style="font-size: 16px;">open_in_new</span>
+                        </a>
+                      </div>
+                    </article>
+
+                    <article class="scheme-card check" data-scheme-name="pm aasha price support msp">
+                      <div>
+                        <div class="scheme-card-header">
+                          <span class="scheme-badge scheme-badge-orange">
+                            <span class="material-symbols-outlined" style="font-size: 14px;">trending_up</span>
+                            Price Protection
+                          </span>
+                          <span class="muted" style="font-size: 0.78rem;">MSP Guarantee</span>
+                        </div>
+                        <h3>PM-AASHA Scheme</h3>
+                        <p>Ensures fair remunerative prices for oilseeds, pulses, and copra through government procurement.</p>
+                        <div class="scheme-benefit-box">
+                          <span class="material-symbols-outlined" style="font-size: 18px;">verified</span>
+                          <span>Benefit: 100% Minimum Support Price Protection</span>
+                        </div>
+                      </div>
+                      <div class="scheme-card-footer">
+                        <a href="https://newsonair.gov.in/govt-steps-up-pm-aasha-support-to-ensure-msp-benefits-reach-farmers/" target="_blank" rel="noreferrer">
+                          View Details & Guidelines
+                          <span class="material-symbols-outlined" style="font-size: 16px;">open_in_new</span>
+                        </a>
+                      </div>
+                    </article>
+
+                    <article class="scheme-card eligible" data-scheme-name="pm kisan maan dhan yojana pension">
+                      <div>
+                        <div class="scheme-card-header">
+                          <span class="scheme-badge scheme-badge-green">
+                            <span class="material-symbols-outlined" style="font-size: 14px;">savings</span>
+                            Pension Scheme
+                          </span>
+                          <span class="muted" style="font-size: 0.78rem;">Old-Age Support</span>
+                        </div>
+                        <h3>PM Kisan Maan-Dhan Yojana</h3>
+                        <p>A voluntary contributory pension scheme providing a monthly pension for small and marginal landholders.</p>
+                        <div class="scheme-benefit-box">
+                          <span class="material-symbols-outlined" style="font-size: 18px;">account_balance_wallet</span>
+                          <span>Benefit: Guaranteed ₹3,000 / Month Pension</span>
+                        </div>
+                      </div>
+                      <div class="scheme-card-footer">
+                        <a href="https://pmkmy.gov.in/" target="_blank" rel="noreferrer">
+                          Apply via CSC Portal
+                          <span class="material-symbols-outlined" style="font-size: 16px;">open_in_new</span>
+                        </a>
+                      </div>
+                    </article>
+                  </div>
+                </section>
+
+                <!-- Section 2: Credit & Insurance -->
+                <section class="scheme-category" data-cat-section="credit" aria-labelledby="credit-insurance-title">
+                  <div class="scheme-category-title-row">
+                    <div class="scheme-category-icon-box">
+                      <span class="material-symbols-outlined" style="font-size: 22px;">shield</span>
+                    </div>
+                    <div>
+                      <h3 id="credit-insurance-title" style="font-size: 1.15rem; margin: 0;">Credit & Crop Risk Protection</h3>
+                      <p class="muted" style="margin: 2px 0 0; font-size: 0.85rem;">Low-interest loans, crop loss insurance, and post-harvest infrastructure funds.</p>
+                    </div>
+                  </div>
+                  <div class="scheme-grid">
+                    <article class="scheme-card eligible" data-scheme-name="kisan credit card kcc loan low interest">
+                      <div>
+                        <div class="scheme-card-header">
+                          <span class="scheme-badge scheme-badge-green">
+                            <span class="material-symbols-outlined" style="font-size: 14px;">credit_card</span>
+                            Low Interest Credit
+                          </span>
+                          <span class="muted" style="font-size: 0.78rem;">Bank Line</span>
+                        </div>
+                        <h3>Kisan Credit Card (KCC)</h3>
+                        <p>Offers hassle-free short-term agricultural credit up to ₹3 Lakh at an effective interest rate of just 4%.</p>
+                        <div class="scheme-benefit-box">
+                          <span class="material-symbols-outlined" style="font-size: 18px;">percent</span>
+                          <span>Benefit: Up to ₹3 Lakh Loan @ 4% Interest</span>
+                        </div>
+                      </div>
+                      <div class="scheme-card-footer">
+                        <a href="https://www.myscheme.gov.in/schemes/kcc" target="_blank" rel="noreferrer">
+                          Check Bank Portal
+                          <span class="material-symbols-outlined" style="font-size: 16px;">open_in_new</span>
+                        </a>
+                      </div>
+                    </article>
+
+                    <article class="scheme-card check" data-scheme-name="pmfby pradhan mantri fasal bima yojana crop insurance">
+                      <div>
+                        <div class="scheme-card-header">
+                          <span class="scheme-badge scheme-badge-orange">
+                            <span class="material-symbols-outlined" style="font-size: 14px;">security</span>
+                            Crop Insurance
+                          </span>
+                          <span class="muted" style="font-size: 0.78rem;">Disaster Shield</span>
+                        </div>
+                        <h3>PM Fasal Bima Yojana (PMFBY)</h3>
+                        <p>Comprehensive crop insurance against non-preventable natural risks, flood, drought, pests, and post-harvest loss.</p>
+                        <div class="scheme-benefit-box">
+                          <span class="material-symbols-outlined" style="font-size: 18px;">verified_user</span>
+                          <span>Benefit: 1.5% - 2% Low Premium for Full Coverage</span>
+                        </div>
+                      </div>
+                      <div class="scheme-card-footer">
+                        <a href="https://pmfby.gov.in/" target="_blank" rel="noreferrer">
+                          Calculate Premium & Claim
+                          <span class="material-symbols-outlined" style="font-size: 16px;">open_in_new</span>
+                        </a>
+                      </div>
+                    </article>
+
+                    <article class="scheme-card eligible" data-scheme-name="agriculture infrastructure fund aif storage cold chain">
+                      <div>
+                        <div class="scheme-card-header">
+                          <span class="scheme-badge scheme-badge-blue">
+                            <span class="material-symbols-outlined" style="font-size: 14px;">warehouse</span>
+                            Infra Fund
+                          </span>
+                          <span class="muted" style="font-size: 0.78rem;">Storage & Processing</span>
+                        </div>
+                        <h3>Agri Infrastructure Fund (AIF)</h3>
+                        <p>Medium-long term debt financing for post-harvest infrastructure, warehouses, cold stores, and primary processing units.</p>
+                        <div class="scheme-benefit-box">
+                          <span class="material-symbols-outlined" style="font-size: 18px;">domain</span>
+                          <span>Benefit: 3% Interest Subvention up to ₹2 Crore</span>
+                        </div>
+                      </div>
+                      <div class="scheme-card-footer">
+                        <a href="https://agriinfra.dac.gov.in/" target="_blank" rel="noreferrer">
+                          AIF Project Portal
+                          <span class="material-symbols-outlined" style="font-size: 16px;">open_in_new</span>
+                        </a>
+                      </div>
+                    </article>
+                  </div>
+                </section>
+
+                <!-- Section 3: Technology & Solar -->
+                <section class="scheme-category" data-cat-section="tech" aria-labelledby="technology-title">
+                  <div class="scheme-category-title-row">
+                    <div class="scheme-category-icon-box">
+                      <span class="material-symbols-outlined" style="font-size: 22px;">precision_manufacturing</span>
+                    </div>
+                    <div>
+                      <h3 id="technology-title" style="font-size: 1.15rem; margin: 0;">Technology & Solar Infrastructure</h3>
+                      <p class="muted" style="margin: 2px 0 0; font-size: 0.85rem;">Solar water pumps, farm machinery subsidies, soil testing, and digital e-NAM trading.</p>
+                    </div>
+                  </div>
+                  <div class="scheme-grid">
+                    <article class="scheme-card tech eligible" data-scheme-name="pm kusum solar pump subsidy power">
+                      <div>
+                        <div class="scheme-card-header">
+                          <span class="scheme-badge scheme-badge-blue">
+                            <span class="material-symbols-outlined" style="font-size: 14px;">solar_power</span>
+                            Solar Subsidy
+                          </span>
+                          <span class="muted" style="font-size: 0.78rem;">Free Energy</span>
+                        </div>
+                        <h3>PM-KUSUM Solar Scheme</h3>
+                        <p>Provides up to 60% subsidy for setting up standalone solar pumps and solarizing grid-connected farm pumps.</p>
+                        <div class="scheme-benefit-box">
+                          <span class="material-symbols-outlined" style="font-size: 18px;">bolt</span>
+                          <span>Benefit: Up to 60% Financial Subsidy on Pumps</span>
+                        </div>
+                      </div>
+                      <div class="scheme-card-footer">
+                        <a href="https://pmkusum.mnre.gov.in/" target="_blank" rel="noreferrer">
+                          Apply for Solar Pump
+                          <span class="material-symbols-outlined" style="font-size: 16px;">open_in_new</span>
+                        </a>
+                      </div>
+                    </article>
+
+                    <article class="scheme-card tech eligible" data-scheme-name="sub mission agricultural mechanisation smam tractor machinery">
+                      <div>
+                        <div class="scheme-card-header">
+                          <span class="scheme-badge scheme-badge-blue">
+                            <span class="material-symbols-outlined" style="font-size: 14px;">agriculture</span>
+                            Machinery Support
+                          </span>
+                          <span class="muted" style="font-size: 0.78rem;">Mechanization</span>
+                        </div>
+                        <h3>Agricultural Mechanisation (SMAM)</h3>
+                        <p>Financial assistance to buy tractors, rotavators, power tillers, and set up Custom Hiring Centers (CHCs).</p>
+                        <div class="scheme-benefit-box">
+                          <span class="material-symbols-outlined" style="font-size: 18px;">handyman</span>
+                          <span>Benefit: 40% to 50% Subsidy on Machinery</span>
+                        </div>
+                      </div>
+                      <div class="scheme-card-footer">
+                        <a href="https://agrimachinery.nic.in/" target="_blank" rel="noreferrer">
+                          Machinery Subsidy Portal
+                          <span class="material-symbols-outlined" style="font-size: 16px;">open_in_new</span>
+                        </a>
+                      </div>
+                    </article>
+
+                    <article class="scheme-card check" data-scheme-name="soil health card scheme fertilizer soil testing">
+                      <div>
+                        <div class="scheme-card-header">
+                          <span class="scheme-badge scheme-badge-orange">
+                            <span class="material-symbols-outlined" style="font-size: 14px;">science</span>
+                            Soil Intelligence
+                          </span>
+                          <span class="muted" style="font-size: 0.78rem;">Free Advisory</span>
+                        </div>
+                        <h3>Soil Health Card Scheme</h3>
+                        <p>Provides 12-parameter soil fertility analysis reports to guide precise fertilizer and nutrient application.</p>
+                        <div class="scheme-benefit-box">
+                          <span class="material-symbols-outlined" style="font-size: 18px;">nature</span>
+                          <span>Benefit: Free Soil Test Report & Fertilizer Map</span>
+                        </div>
+                      </div>
+                      <div class="scheme-card-footer">
+                        <a href="https://soilhealth.dac.gov.in/" target="_blank" rel="noreferrer">
+                          Find Nearest Soil Lab
+                          <span class="material-symbols-outlined" style="font-size: 16px;">open_in_new</span>
+                        </a>
+                      </div>
+                    </article>
+
+                    <article class="scheme-card tech eligible" data-scheme-name="enam electronic national agriculture market online trading">
+                      <div>
+                        <div class="scheme-card-header">
+                          <span class="scheme-badge scheme-badge-green">
+                            <span class="material-symbols-outlined" style="font-size: 14px;">storefront</span>
+                            Digital Mandi
+                          </span>
+                          <span class="muted" style="font-size: 0.78rem;">Nationwide Buyers</span>
+                        </div>
+                        <h3>e-NAM Trade Network</h3>
+                        <p>Connects APMC mandis across India on a single digital trading platform for transparent competitive bidding.</p>
+                        <div class="scheme-benefit-box">
+                          <span class="material-symbols-outlined" style="font-size: 18px;">payments</span>
+                          <span>Benefit: Better Mandi Prices & Direct Payment</span>
+                        </div>
+                      </div>
+                      <div class="scheme-card-footer">
+                        <a href="https://enam.gov.in/" target="_blank" rel="noreferrer">
+                          Trade on e-NAM
+                          <span class="material-symbols-outlined" style="font-size: 16px;">open_in_new</span>
+                        </a>
+                      </div>
+                    </article>
+                  </div>
+                </section>
+              </div>
+            </div>
+          </section>
+
+          <!-- News Page -->
+          <section class="page" data-page="news" aria-labelledby="news-title">
+            <div class="news-page-container">
+              <div class="news-header-toolbar">
+                <div style="display: flex; align-items: center; gap: 14px;">
+                  <div class="news-live-tag">
+                    <span class="news-live-pulse"></span>
+                    <span>Live Agri Feed</span>
+                  </div>
+                  <span class="muted" style="font-size: 0.82rem;">Updated regularly • Verified Sources</span>
+                </div>
+                <div class="news-search-bar">
+                  <span class="material-symbols-outlined" style="color: var(--text-muted); font-size: 20px;">search</span>
+                  <input type="search" id="news-search-input" placeholder="Search news by crop, scheme, MSP..." />
+                </div>
+              </div>
+
+              <!-- Filter Pills -->
+              <div class="news-category-filters" id="news-category-filters">
+                <button class="news-cat-chip active" data-category="all">
+                  <span class="material-symbols-outlined" style="font-size: 16px;">explore</span>
+                  All News
+                </button>
+                <button class="news-cat-chip" data-category="subsidy">
+                  <span class="material-symbols-outlined" style="font-size: 16px;">account_balance</span>
+                  Schemes & Subsidies
+                </button>
+                <button class="news-cat-chip" data-category="market">
+                  <span class="material-symbols-outlined" style="font-size: 16px;">trending_up</span>
+                  Mandi & MSP
+                </button>
+                <button class="news-cat-chip" data-category="weather">
+                  <span class="material-symbols-outlined" style="font-size: 16px;">rainy</span>
+                  Weather & Monsoon
+                </button>
+                <button class="news-cat-chip" data-category="tech">
+                  <span class="material-symbols-outlined" style="font-size: 16px;">smart_toy</span>
+                  AgriTech & Drones
+                </button>
+              </div>
+
+              <!-- Breaking / Featured Story Container -->
+              <div id="news-hero-container"></div>
+
+              <!-- News Section Subheading -->
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 6px;">
+                <h3 style="font-size: 1.25rem; margin: 0; font-weight: 700;">Latest Headlines & Bulletins</h3>
+                <span class="muted" id="news-results-count" style="font-size: 0.85rem;">Showing all articles</span>
+              </div>
+
+              <!-- Grid of News Articles -->
+              <div class="news-cards-grid" id="news-cards-grid">
+                <!-- Injected via JavaScript -->
+              </div>
+            </div>
+          </section>
+          <div class="news-toast" id="news-toast">Link copied to clipboard!</div>
+        </main>
+      </div>
+    </div>
+
+    <section class="chat-assistant" aria-label="AgriSaathi chatbot">
+      <button class="chat-toggle" id="chat-toggle" type="button" aria-expanded="false" aria-controls="chat-panel">
+        <span class="material-symbols-outlined fill">support_agent</span>
+        <span>Ask AgriSaathi</span>
+      </button>
+      <div class="chat-panel" id="chat-panel" hidden>
+        <header class="chat-header">
+          <div>
+            <p class="eyebrow">AI farm assistant</p>
+            <h2>AgriSaathi Chat</h2>
+          </div>
+          <button class="icon-button" id="chat-close" type="button" aria-label="Close chat">
+            <span class="material-symbols-outlined">close</span>
+          </button>
+        </header>
+        <div class="chat-messages" id="chat-messages" aria-live="polite">
+          <div class="chat-message assistant">Namaste. Ask me about crop care, weather planning, mandi decisions, or government schemes. I will use the live weather and app data available here.</div>
+        </div>
+        <form class="chat-form" id="chat-form">
+          <label class="chat-input-label" for="chat-input">Your question</label>
+          <div class="chat-input-row">
+            <input id="chat-input" name="message" autocomplete="off" placeholder="Example: Should I irrigate paddy today?" />
+            <button type="submit">Send</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <nav class="bottom-nav" aria-label="Mobile navigation">
+      <button class="active" type="button" data-page-target="dashboard"><span class="material-symbols-outlined fill">dashboard</span><small>Home</small></button>
+      <button type="button" data-page-target="weather"><span class="material-symbols-outlined">partly_cloudy_day</span><small>Weather</small></button>
+      <button type="button" data-page-target="markets"><span class="material-symbols-outlined">storefront</span><small>Markets</small></button>
+      <button type="button" data-page-target="crop"><span class="material-symbols-outlined">biotech</span><small>Crop</small></button>
+      <button type="button" data-page-target="schemes"><span class="material-symbols-outlined">account_balance</span><small>Schemes</small></button>
+    </nav>
+
+    <script src="app.js"></script>
+  </body>
+</html>

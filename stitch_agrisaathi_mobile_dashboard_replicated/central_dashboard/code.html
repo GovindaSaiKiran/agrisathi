@@ -1,0 +1,407 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>AgriManager Pro - Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "background": "#f8f9fa",
+                    "on-secondary-fixed": "#002109",
+                    "surface-container-lowest": "#ffffff",
+                    "surface": "#f8f9fa",
+                    "on-primary": "#ffffff",
+                    "on-surface": "#191c1d",
+                    "inverse-on-surface": "#f0f1f2",
+                    "on-background": "#191c1d",
+                    "on-primary-fixed-variant": "#005323",
+                    "on-primary-fixed": "#00210a",
+                    "primary": "#00652c",
+                    "surface-bright": "#f8f9fa",
+                    "surface-container-low": "#f3f4f5",
+                    "on-surface-variant": "#3f493f",
+                    "outline-variant": "#becabc",
+                    "on-secondary-fixed-variant": "#005320",
+                    "on-primary-container": "#d3ffd5",
+                    "on-tertiary": "#ffffff",
+                    "tertiary-container": "#2865ed",
+                    "secondary-container": "#7cf994",
+                    "surface-tint": "#006d30",
+                    "surface-container-high": "#e7e8e9",
+                    "tertiary-fixed-dim": "#b4c5ff",
+                    "error": "#ba1a1a",
+                    "on-secondary": "#ffffff",
+                    "primary-fixed": "#95f8a7",
+                    "surface-dim": "#d9dadb",
+                    "error-container": "#ffdad6",
+                    "tertiary-fixed": "#dbe1ff",
+                    "surface-container-highest": "#e1e3e4",
+                    "on-tertiary-fixed-variant": "#003ea8",
+                    "outline": "#6f7a6e",
+                    "secondary": "#006e2d",
+                    "secondary-fixed": "#7ffc97",
+                    "inverse-surface": "#2e3132",
+                    "secondary-fixed-dim": "#62df7d",
+                    "on-tertiary-container": "#f2f2ff",
+                    "on-error-container": "#93000a",
+                    "on-error": "#ffffff",
+                    "primary-container": "#15803d",
+                    "on-tertiary-fixed": "#00174b",
+                    "inverse-primary": "#79db8d",
+                    "surface-variant": "#e1e3e4",
+                    "primary-fixed-dim": "#79db8d",
+                    "on-secondary-container": "#007230",
+                    "surface-container": "#edeeef",
+                    "tertiary": "#004cca"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "sm": "8px",
+                    "edge-margin": "16px",
+                    "md": "16px",
+                    "stack-gap": "12px",
+                    "lg": "24px",
+                    "xl": "32px",
+                    "base": "4px",
+                    "xs": "4px"
+            },
+            "fontFamily": {
+                    "headline-lg": [
+                            "Inter"
+                    ],
+                    "headline-md": [
+                            "Inter"
+                    ],
+                    "body-md": [
+                            "Inter"
+                    ],
+                    "label-sm": [
+                            "Inter"
+                    ],
+                    "headline-lg-mobile": [
+                            "Inter"
+                    ],
+                    "label-md": [
+                            "Inter"
+                    ],
+                    "body-lg": [
+                            "Inter"
+                    ]
+            },
+            "fontSize": {
+                    "headline-lg": [
+                            "30px",
+                            {
+                                    "lineHeight": "36px",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "headline-md": [
+                            "20px",
+                            {
+                                    "lineHeight": "28px",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "body-md": [
+                            "16px",
+                            {
+                                    "lineHeight": "24px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "label-sm": [
+                            "12px",
+                            {
+                                    "lineHeight": "16px",
+                                    "fontWeight": "500"
+                            }
+                    ],
+                    "headline-lg-mobile": [
+                            "24px",
+                            {
+                                    "lineHeight": "30px",
+                                    "letterSpacing": "-0.01em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "label-md": [
+                            "14px",
+                            {
+                                    "lineHeight": "20px",
+                                    "letterSpacing": "0.01em",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "body-lg": [
+                            "18px",
+                            {
+                                    "lineHeight": "26px",
+                                    "fontWeight": "400"
+                            }
+                    ]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex antialiased">
+<!-- SideNavBar -->
+<nav class="hidden md:flex h-screen w-64 fixed left-0 top-0 flex-col py-lg px-md bg-surface-container-lowest border-r border-outline-variant shadow-sm transition-all duration-200 ease-in-out z-50">
+<div class="flex items-center gap-sm mb-xl px-sm">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="agriculture" data-weight="fill" style="font-variation-settings: 'FILL' 1;">agriculture</span>
+<div>
+<h1 class="font-headline-md text-headline-md text-primary font-bold">AgriManager Pro</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Modern Farming Solutions</p>
+</div>
+</div>
+<div class="flex-1 flex flex-col gap-sm">
+<a class="flex items-center gap-md px-md py-sm bg-secondary-container text-on-secondary-container font-bold rounded-lg transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-high transition-colors rounded-lg transition-all duration-200 ease-in-out hover:bg-surface-container-high" href="#">
+<span class="material-symbols-outlined" data-icon="sunny">sunny</span>
+<span class="font-label-md text-label-md">Weather</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-high transition-colors rounded-lg transition-all duration-200 ease-in-out hover:bg-surface-container-high" href="#">
+<span class="material-symbols-outlined" data-icon="trending_up">trending_up</span>
+<span class="font-label-md text-label-md">Market Prices</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-high transition-colors rounded-lg transition-all duration-200 ease-in-out hover:bg-surface-container-high" href="#">
+<span class="material-symbols-outlined" data-icon="agriculture">agriculture</span>
+<span class="font-label-md text-label-md">Crop Health</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-high transition-colors rounded-lg transition-all duration-200 ease-in-out hover:bg-surface-container-high" href="#">
+<span class="material-symbols-outlined" data-icon="account_balance">account_balance</span>
+<span class="font-label-md text-label-md">Government Schemes</span>
+</a>
+</div>
+<div class="mt-auto border-t border-outline-variant pt-sm">
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-high transition-colors rounded-lg transition-all duration-200 ease-in-out hover:bg-surface-container-high" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</div>
+</nav>
+<!-- TopNavBar -->
+<header class="hidden md:flex fixed top-0 right-0 left-64 h-16 items-center justify-between px-xl bg-surface border-b border-outline-variant z-40">
+<div class="invisible font-headline-md text-headline-md text-primary font-bold">AgriManager</div>
+<div class="flex items-center gap-md">
+<button class="p-sm text-on-surface-variant hover:text-primary transition-colors focus-within:ring-2 focus-within:ring-primary rounded-full">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-sm text-on-surface-variant hover:text-primary transition-colors focus-within:ring-2 focus-within:ring-primary rounded-full flex items-center gap-sm">
+<img class="w-8 h-8 rounded-full object-cover" data-alt="A small, circular headshot photo of an Indian farmer with a warm smile, wearing a casual light shirt, set against a blurred agricultural background. High quality, well-lit, professional profile picture." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBwckK8QJZ5zxr8WUMQgeqEjKIwdwr1aKhcm33luVQeh8432AGoEQ0toJ5AEtGluz_KR_TB6abTYy_8rXPWEftNn6I07GUjuRAPT9WmIjxELWRhGjfNzAspYfWHZuPCs1jtxJHfexiKN9aC1KzJkSXMXvR3Vj06bSLZ79pKQsGv8DNmNdIrBhJv1D1wfefM7X5zZlSv1HzMyAMmBEE_3oOlijzzwfuxSztO7p2n_B3VYQcyWsK2yTUs">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</button>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="w-full md:ml-64 mt-0 md:mt-16 p-edge-margin md:p-xl flex flex-col gap-xl max-w-7xl mx-auto">
+<!-- Header Section -->
+<div class="flex flex-col gap-sm">
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-background">Good Morning, Rajesh</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Here is the latest update on your farm.</p>
+</div>
+<!-- Multi-column Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-md md:gap-lg">
+<!-- Column 1: My Farm -->
+<div class="bg-surface-container-lowest rounded-xl border border-surface-container-high shadow-[0_2px_4px_rgba(0,0,0,0.04)] flex flex-col overflow-hidden h-full">
+<div class="p-md border-b border-surface-container-high flex justify-between items-center bg-surface-bright">
+<h3 class="font-headline-md text-headline-md text-on-surface flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary" data-icon="yard">yard</span>
+                        My Farm
+                    </h3>
+<button class="text-primary hover:text-surface-tint font-label-sm text-label-sm uppercase tracking-wide">Edit</button>
+</div>
+<div class="flex-1 flex flex-col">
+<img class="w-full h-40 object-cover" data-alt="A close-up, high-quality photograph of healthy green paddy crops in the tillering stage, bathed in bright morning sunlight. The field looks vibrant and well-managed, conveying a sense of growth and agricultural success. Modern light-mode aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA1vtl9g8j7-yqIXVdhRvjobvxxYHCRLQ9sT6rfOL1SedpXOgvYKCJKUUUiBr4i-pDitvz9FoR8OgsoYSLxs1uSjFR8H_kSCIvKbM8krP6Ln1b5kAU-Xxgyz8-gsBPdw0zLcIDgLiapbPXA7wAbULH0PTHjOoOQHtpgoMK6EX9e_6MOjG2aOks5oCH4jyjcRG65Hl4u1x_r3oWGOgrAIf27mNq8D57bxKuFC2oelJIRDyQ7vuy6k6RR">
+<div class="p-md flex flex-col gap-stack-gap flex-1 justify-center">
+<div class="flex justify-between items-end border-b border-surface-variant pb-sm">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Crop</span>
+<span class="font-headline-md text-headline-md text-on-background font-semibold">Paddy</span>
+</div>
+<div class="flex justify-between items-end border-b border-surface-variant pb-sm">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Stage</span>
+<span class="font-body-lg text-body-lg text-on-surface font-medium text-primary-container">Tillering</span>
+</div>
+<div class="flex justify-between items-end">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Area</span>
+<span class="font-body-lg text-body-lg text-on-surface font-medium">3.2 Acres</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Column 2: Weather Intelligence -->
+<div class="bg-surface-container-lowest rounded-xl border border-surface-container-high shadow-[0_2px_4px_rgba(0,0,0,0.04)] flex flex-col h-full bg-[#eff6ff] overflow-hidden">
+<div class="p-md border-b border-blue-100 flex justify-between items-center">
+<h3 class="font-headline-md text-headline-md text-blue-900 flex items-center gap-sm">
+<span class="material-symbols-outlined text-blue-600" data-icon="cloud">cloud</span>
+                        Weather Intelligence
+                    </h3>
+</div>
+<div class="p-md flex-1 flex flex-col gap-md">
+<div class="bg-[#fff7ed] border border-[#ffedd5] rounded-lg p-sm flex items-start gap-sm">
+<span class="material-symbols-outlined text-[#ea580c]" data-icon="warning">warning</span>
+<div>
+<p class="font-label-md text-label-md text-[#ea580c] font-bold">Rain Alert</p>
+<p class="font-label-sm text-label-sm text-[#9a3412]">Moderate rainfall expected this afternoon. 65% chance of precipitation.</p>
+</div>
+</div>
+<div class="flex items-center justify-between mt-auto mb-auto px-md">
+<div class="flex flex-col">
+<span class="text-5xl font-bold text-blue-900 tracking-tighter">31°C</span>
+<span class="font-body-md text-body-md text-blue-700">Mostly Cloudy</span>
+</div>
+<span class="material-symbols-outlined text-7xl text-blue-500" data-icon="partly_cloudy_day" data-weight="fill" style="font-variation-settings: 'FILL' 1;">partly_cloudy_day</span>
+</div>
+<div class="grid grid-cols-5 gap-xs pt-md border-t border-blue-100">
+<div class="flex flex-col items-center gap-xs">
+<span class="font-label-sm text-label-sm text-blue-800">Mon</span>
+<span class="material-symbols-outlined text-blue-500 text-sm" data-icon="sunny">sunny</span>
+<span class="font-label-sm text-label-sm text-blue-900 font-bold">33°</span>
+</div>
+<div class="flex flex-col items-center gap-xs">
+<span class="font-label-sm text-label-sm text-blue-800">Tue</span>
+<span class="material-symbols-outlined text-blue-500 text-sm" data-icon="rainy">rainy</span>
+<span class="font-label-sm text-label-sm text-blue-900 font-bold">29°</span>
+</div>
+<div class="flex flex-col items-center gap-xs">
+<span class="font-label-sm text-label-sm text-blue-800">Wed</span>
+<span class="material-symbols-outlined text-blue-500 text-sm" data-icon="cloud">cloud</span>
+<span class="font-label-sm text-label-sm text-blue-900 font-bold">30°</span>
+</div>
+<div class="flex flex-col items-center gap-xs">
+<span class="font-label-sm text-label-sm text-blue-800">Thu</span>
+<span class="material-symbols-outlined text-blue-500 text-sm" data-icon="partly_cloudy_day">partly_cloudy_day</span>
+<span class="font-label-sm text-label-sm text-blue-900 font-bold">32°</span>
+</div>
+<div class="flex flex-col items-center gap-xs">
+<span class="font-label-sm text-label-sm text-blue-800">Fri</span>
+<span class="material-symbols-outlined text-blue-500 text-sm" data-icon="sunny">sunny</span>
+<span class="font-label-sm text-label-sm text-blue-900 font-bold">34°</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Column 3: Market Watch -->
+<div class="bg-surface-container-lowest rounded-xl border border-surface-container-high shadow-[0_2px_4px_rgba(0,0,0,0.04)] flex flex-col h-full">
+<div class="p-md border-b border-surface-container-high flex justify-between items-center bg-surface-bright">
+<h3 class="font-headline-md text-headline-md text-on-surface flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary" data-icon="storefront">storefront</span>
+                        Market Watch
+                    </h3>
+<span class="font-label-sm text-label-sm text-on-surface-variant bg-surface-container-low px-2 py-1 rounded-full">Paddy</span>
+</div>
+<div class="p-md flex-1 flex flex-col gap-stack-gap">
+<div class="flex justify-between items-center p-sm hover:bg-surface-container-low rounded-lg transition-colors cursor-pointer border border-transparent hover:border-surface-variant">
+<div>
+<p class="font-label-md text-label-md text-on-surface font-semibold">Azadpur Mandi</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="location_on">location_on</span> 12 km
+                            </p>
+</div>
+<div class="text-right">
+<p class="font-body-md text-body-md text-on-surface font-bold">₹2,150 <span class="font-label-sm text-label-sm font-normal text-on-surface-variant">/ qtl</span></p>
+<p class="font-label-sm text-label-sm text-primary flex items-center justify-end gap-1">
+<span class="material-symbols-outlined text-[12px]" data-icon="arrow_upward">arrow_upward</span> 2.5%
+                            </p>
+</div>
+</div>
+<div class="flex justify-between items-center p-sm hover:bg-surface-container-low rounded-lg transition-colors cursor-pointer border border-transparent hover:border-surface-variant">
+<div>
+<p class="font-label-md text-label-md text-on-surface font-semibold">Narela Mandi</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="location_on">location_on</span> 18 km
+                            </p>
+</div>
+<div class="text-right">
+<p class="font-body-md text-body-md text-on-surface font-bold">₹2,110 <span class="font-label-sm text-label-sm font-normal text-on-surface-variant">/ qtl</span></p>
+<p class="font-label-sm text-label-sm text-error flex items-center justify-end gap-1">
+<span class="material-symbols-outlined text-[12px]" data-icon="arrow_downward">arrow_downward</span> 0.8%
+                            </p>
+</div>
+</div>
+<div class="flex justify-between items-center p-sm hover:bg-surface-container-low rounded-lg transition-colors cursor-pointer border border-transparent hover:border-surface-variant">
+<div>
+<p class="font-label-md text-label-md text-on-surface font-semibold">Najafgarh Mandi</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="location_on">location_on</span> 25 km
+                            </p>
+</div>
+<div class="text-right">
+<p class="font-body-md text-body-md text-on-surface font-bold">₹2,090 <span class="font-label-sm text-label-sm font-normal text-on-surface-variant">/ qtl</span></p>
+<p class="font-label-sm text-label-sm text-on-surface-variant flex items-center justify-end gap-1">
+<span class="material-symbols-outlined text-[12px]" data-icon="horizontal_rule">horizontal_rule</span> 0.0%
+                            </p>
+</div>
+</div>
+<button class="mt-auto w-full py-2 bg-surface-container-lowest border border-primary text-primary font-label-md text-label-md rounded-lg hover:bg-surface-container-low transition-colors">View All Markets</button>
+</div>
+</div>
+</div>
+<!-- Smart Advisory Section -->
+<div class="bg-surface-container-lowest rounded-xl border border-surface-container-high shadow-[0_2px_4px_rgba(0,0,0,0.04)] overflow-hidden flex flex-col md:flex-row relative">
+<div class="md:w-1/3 relative h-48 md:h-auto">
+<img class="absolute inset-0 w-full h-full object-cover" data-alt="A wide panoramic shot of an expansive agricultural field under a dramatic, slightly overcast sky, hinting at impending rain. The crops are lush green, contrasting beautifully with the darker storm clouds. The image conveys a sense of urgency and natural forces at play. High contrast, clean modern look." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBvSL0X9LMcLFwaRhQz9lwvHuDW2tDy4bt7ZHUtKaLm93rhRF7EkQNluW-rBXUhbWBxq2zw4b8JT8TflDDwbtzpRFei2ORsJufaKuG1Rjz3W4vAfsi6zvCZhnrncu-RnGYo2Gxh2vC880y_COoopGzjeqfGrGPVOznmY3pX9AWib0Ece0fZ7b55_80c275dZikH4TOLtq0nbJvZUWPEzIkfkXc2TX7SOAd27oILlL43Vamjeci5m90K">
+<div class="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-black/70 to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-md flex items-center gap-sm">
+<span class="material-symbols-outlined text-on-primary text-3xl" data-icon="psychology">psychology</span>
+<h3 class="font-headline-md text-headline-md text-on-primary font-bold">Smart Advisory</h3>
+</div>
+</div>
+<div class="md:w-2/3 p-md md:p-lg flex flex-col justify-center gap-md bg-surface-container-lowest">
+<div class="flex items-start gap-md">
+<div class="bg-[#fff7ed] p-sm rounded-full flex-shrink-0 mt-1">
+<span class="material-symbols-outlined text-[#ea580c] text-xl" data-icon="water_drop">water_drop</span>
+</div>
+<div>
+<h4 class="font-headline-md text-headline-md text-on-surface mb-xs">Postpone Irrigation</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">Due to the high probability of rain (65%) this afternoon, we recommend postponing any scheduled irrigation for your Paddy fields to prevent waterlogging and save resources.</p>
+</div>
+</div>
+<div class="flex justify-end mt-sm">
+<button class="px-lg py-sm bg-primary text-on-primary font-label-md text-label-md font-bold rounded-lg hover:bg-surface-tint transition-colors flex items-center gap-sm min-h-[48px]">
+                        Mark as Read <span class="material-symbols-outlined text-sm" data-icon="check">check</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile only) -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 bg-surface-container-lowest border-t border-outline-variant flex justify-around items-center h-16 pb-safe z-50">
+<a class="flex flex-col items-center justify-center w-full h-full text-primary" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard" data-weight="fill" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="font-label-sm text-label-sm mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center w-full h-full text-on-surface-variant" href="#">
+<span class="material-symbols-outlined" data-icon="sunny">sunny</span>
+<span class="font-label-sm text-label-sm mt-1">Weather</span>
+</a>
+<a class="flex flex-col items-center justify-center w-full h-full text-on-surface-variant" href="#">
+<span class="material-symbols-outlined" data-icon="storefront">storefront</span>
+<span class="font-label-sm text-label-sm mt-1">Markets</span>
+</a>
+<a class="flex flex-col items-center justify-center w-full h-full text-on-surface-variant" href="#">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+<span class="font-label-sm text-label-sm mt-1">More</span>
+</a>
+</nav>
+</body></html>

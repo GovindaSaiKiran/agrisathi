@@ -1,0 +1,314 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Crop Health Lab - AgriManager Pro</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "background": "#f8f9fa",
+                        "on-secondary-fixed": "#002109",
+                        "surface-container-lowest": "#ffffff",
+                        "surface": "#f8f9fa",
+                        "on-primary": "#ffffff",
+                        "on-surface": "#191c1d",
+                        "inverse-on-surface": "#f0f1f2",
+                        "on-background": "#191c1d",
+                        "on-primary-fixed-variant": "#005323",
+                        "on-primary-fixed": "#00210a",
+                        "primary": "#00652c",
+                        "surface-bright": "#f8f9fa",
+                        "surface-container-low": "#f3f4f5",
+                        "on-surface-variant": "#3f493f",
+                        "outline-variant": "#becabc",
+                        "on-secondary-fixed-variant": "#005320",
+                        "on-primary-container": "#d3ffd5",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-container": "#2865ed",
+                        "secondary-container": "#7cf994",
+                        "surface-tint": "#006d30",
+                        "surface-container-high": "#e7e8e9",
+                        "tertiary-fixed-dim": "#b4c5ff",
+                        "error": "#ba1a1a",
+                        "on-secondary": "#ffffff",
+                        "primary-fixed": "#95f8a7",
+                        "surface-dim": "#d9dadb",
+                        "error-container": "#ffdad6",
+                        "tertiary-fixed": "#dbe1ff",
+                        "surface-container-highest": "#e1e3e4",
+                        "on-tertiary-fixed-variant": "#003ea8",
+                        "outline": "#6f7a6e",
+                        "secondary": "#006e2d",
+                        "secondary-fixed": "#7ffc97",
+                        "inverse-surface": "#2e3132",
+                        "secondary-fixed-dim": "#62df7d",
+                        "on-tertiary-container": "#f2f2ff",
+                        "on-error-container": "#93000a",
+                        "on-error": "#ffffff",
+                        "primary-container": "#15803d",
+                        "on-tertiary-fixed": "#00174b",
+                        "inverse-primary": "#79db8d",
+                        "surface-variant": "#e1e3e4",
+                        "primary-fixed-dim": "#79db8d",
+                        "on-secondary-container": "#007230",
+                        "surface-container": "#edeeef",
+                        "tertiary": "#004cca"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "sm": "8px",
+                        "edge-margin": "16px",
+                        "md": "16px",
+                        "stack-gap": "12px",
+                        "lg": "24px",
+                        "xl": "32px",
+                        "base": "4px",
+                        "xs": "4px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Inter", "sans-serif"],
+                        "headline-md": ["Inter", "sans-serif"],
+                        "body-md": ["Inter", "sans-serif"],
+                        "label-sm": ["Inter", "sans-serif"],
+                        "headline-lg-mobile": ["Inter", "sans-serif"],
+                        "label-md": ["Inter", "sans-serif"],
+                        "body-lg": ["Inter", "sans-serif"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["30px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "30px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "26px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-fill-1 {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Hide scrollbar for clean UI */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #d9dadb; border-radius: 4px; }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md antialiased h-screen flex overflow-hidden">
+<!-- SideNavBar (Shared Component) -->
+<nav class="hidden md:flex bg-surface-container-lowest dark:bg-surface-container-low h-screen w-64 fixed left-0 top-0 border-r border-outline-variant dark:border-outline shadow-sm flex flex-col h-full py-lg px-md transition-all duration-200 ease-in-out z-50">
+<div class="flex items-center gap-sm mb-xl px-sm">
+<img class="w-8 h-8 rounded-full object-cover" data-alt="A clean, minimalist abstract logo design for an agricultural management app, featuring geometric shapes representing fields and a leaf, in vibrant modern green tones on a pristine white background. High resolution vector art style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCWfvKfLBFRuIwarc9wAUtC_qaLQHjZItdINsq1esAmNzrR_jviOFIY0LjH4kGh8XosAnf7kxvr61zj2WdvaTDL3cGgFEuTCnX3iy5gqglFoUKw4SbEAU7_r7mvqRPhs2wKtm8rbHpBs6VsA3mG-tQgM4IBiNX9CPUDlSZENhkmkzQZu5dFm6_h74Gj1tb38LQpHZU62-BqcjlYQFbJiRZ84batkUAPUozwG2LQ2kjyZwWT9c756Ka3">
+<div>
+<h1 class="font-headline-md text-headline-md text-primary dark:text-primary-fixed font-bold">AgriManager Pro</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Modern Farming Solutions</p>
+</div>
+</div>
+<ul class="flex flex-col gap-sm flex-1">
+<!-- Dashboard -->
+<li>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant dark:text-on-surface hover:bg-surface-container-high transition-colors font-label-md text-label-md rounded-lg" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+                    Dashboard
+                </a>
+</li>
+<!-- Weather -->
+<li>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant dark:text-on-surface hover:bg-surface-container-high transition-colors font-label-md text-label-md rounded-lg" href="#">
+<span class="material-symbols-outlined">sunny</span>
+                    Weather
+                </a>
+</li>
+<!-- Market Prices -->
+<li>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant dark:text-on-surface hover:bg-surface-container-high transition-colors font-label-md text-label-md rounded-lg" href="#">
+<span class="material-symbols-outlined">trending_up</span>
+                    Market Prices
+                </a>
+</li>
+<!-- Crop Health (ACTIVE) -->
+<li>
+<a class="flex items-center gap-md px-md py-sm bg-secondary-container dark:bg-primary-container text-on-secondary-container dark:text-on-primary-container font-bold rounded-lg transition-colors font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined icon-fill-1">agriculture</span>
+                    Crop Health
+                </a>
+</li>
+<!-- Government Schemes -->
+<li>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant dark:text-on-surface hover:bg-surface-container-high transition-colors font-label-md text-label-md rounded-lg" href="#">
+<span class="material-symbols-outlined">account_balance</span>
+                    Government Schemes
+                </a>
+</li>
+<!-- Settings -->
+<li class="mt-auto">
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant dark:text-on-surface hover:bg-surface-container-high transition-colors font-label-md text-label-md rounded-lg" href="#">
+<span class="material-symbols-outlined">settings</span>
+                    Settings
+                </a>
+</li>
+</ul>
+</nav>
+<!-- Main Content Wrapper -->
+<div class="flex-1 md:ml-64 flex flex-col h-screen relative">
+<!-- TopNavBar (Shared Component) -->
+<header class="bg-surface dark:bg-surface-dim border-b border-outline-variant dark:border-outline fixed top-0 right-0 left-0 md:left-64 h-16 flex items-center justify-between px-xl h-full ml-0 md:ml-0 z-40">
+<div class="flex items-center gap-md focus-within:ring-2 focus-within:ring-primary rounded-lg px-sm py-xs bg-surface-container-low w-64">
+<span class="material-symbols-outlined text-on-surface-variant">search</span>
+<input class="bg-transparent border-none outline-none text-body-md font-body-md text-on-surface w-full focus:ring-0 p-0" placeholder="Search..." type="text">
+</div>
+<div class="flex items-center gap-md">
+<button class="p-sm text-on-surface-variant dark:text-on-surface hover:text-primary dark:hover:text-primary-fixed transition-colors rounded-full hover:bg-surface-container-highest">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-sm text-on-surface-variant dark:text-on-surface hover:text-primary dark:hover:text-primary-fixed transition-colors rounded-full hover:bg-surface-container-highest">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</header>
+<!-- Main Scrollable Canvas -->
+<main class="flex-1 mt-16 p-edge-margin md:p-xl overflow-y-auto">
+<div class="mb-lg flex justify-between items-end">
+<div>
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface">Crop Health Lab</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-xs">Upload leaf imagery for instant AI-powered disease and deficiency diagnosis.</p>
+</div>
+</div>
+<!-- Split Screen Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-lg h-full pb-xl">
+<!-- Left Column: AI Diagnostic Tool -->
+<div class="lg:col-span-5 flex flex-col h-full gap-stack-gap">
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex-1 flex flex-col shadow-sm relative overflow-hidden">
+<div class="flex items-center justify-between mb-md">
+<h3 class="font-headline-md text-headline-md text-on-surface">AI Diagnostic Tool</h3>
+<span class="material-symbols-outlined text-primary">biotech</span>
+</div>
+<!-- Upload Zone -->
+<div class="flex-1 border-2 border-dashed border-outline-variant hover:border-primary transition-colors rounded-lg flex flex-col items-center justify-center p-xl text-center bg-surface-container-low cursor-pointer group relative">
+<!-- Placeholder image representing an uploaded file - Normally hidden until upload -->
+<div class="absolute inset-0 p-sm hidden group-hover:block transition-opacity opacity-50 z-0">
+<img class="w-full h-full object-cover rounded-md blur-sm" data-alt="A high-resolution, top-down photograph of a mature maize leaf lying flat on a pristine white laboratory surface. The leaf exhibits clear visual symptoms of nitrogen deficiency, characterized by a distinct V-shaped yellowing starting from the tip and progressing down the midrib, while the margins remain green. Studio lighting, sharp focus, technical style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCu4NbCykri9lSGrfBqkB_O-ZpRPnfk8WRkf1ut4c-RMp_FeTnV-Qjy5U4n8ncEoFxsHeP-xoGJF14p0Bbb1SPuQ5mOkPo2cwObHpcnmhXzhPzdSOvBwHdX8YJ6CqlKnVSMp9ghTWjMa7kw2dc5AbZI-mBCb4rNwgmYL15GmfbfgzpqAXafb02qcZ2tZjZB9PiziB1QQvfIu_TTeeRWjUtBmOW_Jm7Z6yC2Zq6EyYlna8UHO2Acy9FY">
+</div>
+<div class="z-10 bg-surface-container-lowest/80 backdrop-blur-sm p-lg rounded-xl shadow-sm flex flex-col items-center border border-outline-variant">
+<div class="w-16 h-16 rounded-full bg-primary-container flex items-center justify-center mb-md text-on-primary">
+<span class="material-symbols-outlined text-3xl">add_a_photo</span>
+</div>
+<h4 class="font-label-md text-label-md text-on-surface font-bold">Upload Leaf Photo</h4>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-xs mb-md">Drag &amp; drop or click to browse</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant max-w-[200px]">Ensure the leaf is well-lit and the affected area is clearly visible.</p>
+</div>
+</div>
+<button class="w-full mt-md bg-primary hover:bg-surface-tint text-on-primary font-label-md text-label-md font-bold py-md px-lg rounded-lg shadow-sm transition-colors flex items-center justify-center gap-sm h-12">
+<span class="material-symbols-outlined">memory</span>
+                            Analyze with AI
+                        </button>
+</div>
+</div>
+<!-- Right Column: Results & Shops -->
+<div class="lg:col-span-7 flex flex-col gap-lg h-full">
+<!-- Diagnosis Results Card -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md shadow-sm">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-md border-b border-surface-container-high pb-sm">Diagnosis Results</h3>
+<div class="flex items-start justify-between mb-md">
+<div>
+<div class="inline-flex items-center gap-xs px-sm py-xs rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm font-bold mb-xs">
+<span class="material-symbols-outlined text-[16px]">warning</span>
+                                    Deficiency Detected
+                                </div>
+<h4 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface">Nitrogen Deficiency</h4>
+</div>
+<div class="text-right">
+<div class="font-headline-md text-headline-md text-primary">87%</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Confidence Score</div>
+</div>
+</div>
+<div class="bg-surface p-sm rounded-lg border border-outline-variant mb-md">
+<h5 class="font-label-md text-label-md text-on-surface font-bold mb-xs">Symptoms Observed:</h5>
+<ul class="list-disc list-inside font-body-md text-body-md text-on-surface-variant space-y-1">
+<li>V-shaped yellowing starting from leaf tips.</li>
+<li>Stunted overall plant growth.</li>
+<li>Older leaves affected first.</li>
+</ul>
+</div>
+<div>
+<h5 class="font-label-md text-label-md text-on-surface font-bold mb-xs flex items-center gap-xs">
+<span class="material-symbols-outlined text-primary text-[18px]">healing</span>
+                                Treatment Recommendations
+                            </h5>
+<p class="font-body-md text-body-md text-on-surface-variant mb-sm">Immediate application of a fast-acting nitrogen source is required to prevent significant yield loss.</p>
+<div class="flex gap-sm mt-sm">
+<span class="px-sm py-xs bg-surface-container-low border border-outline-variant rounded-md font-label-sm text-label-sm text-on-surface">Apply Urea (46-0-0)</span>
+<span class="px-sm py-xs bg-surface-container-low border border-outline-variant rounded-md font-label-sm text-label-sm text-on-surface">Foliar N Spray</span>
+</div>
+</div>
+</div>
+<!-- Nearby Input Shops Card -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md shadow-sm flex-1 flex flex-col">
+<div class="flex items-center justify-between mb-md border-b border-surface-container-high pb-sm">
+<h3 class="font-headline-md text-headline-md text-on-surface">Nearby Input Shops</h3>
+<span class="material-symbols-outlined text-on-surface-variant">store</span>
+</div>
+<div class="flex flex-col gap-sm flex-1 overflow-y-auto pr-sm">
+<!-- Shop Item 1 -->
+<div class="flex items-center justify-between p-sm bg-surface rounded-lg border border-outline-variant hover:border-primary transition-colors cursor-default">
+<div class="flex items-center gap-md">
+<div class="w-12 h-12 bg-surface-container-high rounded-md flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined">storefront</span>
+</div>
+<div>
+<h4 class="font-label-md text-label-md text-on-surface font-bold">Kisan Agro Center</h4>
+<p class="font-label-sm text-label-sm text-on-surface-variant">2.4 km away • Main Market Road</p>
+</div>
+</div>
+<div class="flex flex-col items-end gap-xs">
+<span class="inline-flex items-center gap-xs px-xs py-xs rounded text-[10px] uppercase font-bold tracking-wider bg-secondary-container text-on-secondary-container">
+<span class="material-symbols-outlined text-[12px]">check_circle</span> In Stock: Urea
+                                    </span>
+<button class="text-primary hover:text-surface-tint p-xs rounded-full hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined">call</span>
+</button>
+</div>
+</div>
+<!-- Shop Item 2 -->
+<div class="flex items-center justify-between p-sm bg-surface rounded-lg border border-outline-variant hover:border-primary transition-colors cursor-default">
+<div class="flex items-center gap-md">
+<div class="w-12 h-12 bg-surface-container-high rounded-md flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined">storefront</span>
+</div>
+<div>
+<h4 class="font-label-md text-label-md text-on-surface font-bold">Green Fields Fertilizers</h4>
+<p class="font-label-sm text-label-sm text-on-surface-variant">5.1 km away • Highway Bypass</p>
+</div>
+</div>
+<div class="flex flex-col items-end gap-xs">
+<span class="inline-flex items-center gap-xs px-xs py-xs rounded text-[10px] uppercase font-bold tracking-wider bg-secondary-container text-on-secondary-container">
+<span class="material-symbols-outlined text-[12px]">check_circle</span> In Stock: Foliar N
+                                    </span>
+<button class="text-primary hover:text-surface-tint p-xs rounded-full hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined">call</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

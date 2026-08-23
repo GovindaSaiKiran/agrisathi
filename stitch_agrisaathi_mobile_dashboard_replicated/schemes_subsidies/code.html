@@ -1,0 +1,391 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>AgriManager Pro - Government Schemes</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "background": "#f8f9fa",
+                    "on-secondary-fixed": "#002109",
+                    "surface-container-lowest": "#ffffff",
+                    "surface": "#f8f9fa",
+                    "on-primary": "#ffffff",
+                    "on-surface": "#191c1d",
+                    "inverse-on-surface": "#f0f1f2",
+                    "on-background": "#191c1d",
+                    "on-primary-fixed-variant": "#005323",
+                    "on-primary-fixed": "#00210a",
+                    "primary": "#00652c",
+                    "surface-bright": "#f8f9fa",
+                    "surface-container-low": "#f3f4f5",
+                    "on-surface-variant": "#3f493f",
+                    "outline-variant": "#becabc",
+                    "on-secondary-fixed-variant": "#005320",
+                    "on-primary-container": "#d3ffd5",
+                    "on-tertiary": "#ffffff",
+                    "tertiary-container": "#2865ed",
+                    "secondary-container": "#7cf994",
+                    "surface-tint": "#006d30",
+                    "surface-container-high": "#e7e8e9",
+                    "tertiary-fixed-dim": "#b4c5ff",
+                    "error": "#ba1a1a",
+                    "on-secondary": "#ffffff",
+                    "primary-fixed": "#95f8a7",
+                    "surface-dim": "#d9dadb",
+                    "error-container": "#ffdad6",
+                    "tertiary-fixed": "#dbe1ff",
+                    "surface-container-highest": "#e1e3e4",
+                    "on-tertiary-fixed-variant": "#003ea8",
+                    "outline": "#6f7a6e",
+                    "secondary": "#006e2d",
+                    "secondary-fixed": "#7ffc97",
+                    "inverse-surface": "#2e3132",
+                    "secondary-fixed-dim": "#62df7d",
+                    "on-tertiary-container": "#f2f2ff",
+                    "on-error-container": "#93000a",
+                    "on-error": "#ffffff",
+                    "primary-container": "#15803d",
+                    "on-tertiary-fixed": "#00174b",
+                    "inverse-primary": "#79db8d",
+                    "surface-variant": "#e1e3e4",
+                    "primary-fixed-dim": "#79db8d",
+                    "on-secondary-container": "#007230",
+                    "surface-container": "#edeeef",
+                    "tertiary": "#004cca"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "sm": "8px",
+                    "edge-margin": "16px",
+                    "md": "16px",
+                    "stack-gap": "12px",
+                    "lg": "24px",
+                    "xl": "32px",
+                    "base": "4px",
+                    "xs": "4px"
+            },
+            "fontFamily": {
+                    "headline-lg": [
+                            "Inter"
+                    ],
+                    "headline-md": [
+                            "Inter"
+                    ],
+                    "body-md": [
+                            "Inter"
+                    ],
+                    "label-sm": [
+                            "Inter"
+                    ],
+                    "headline-lg-mobile": [
+                            "Inter"
+                    ],
+                    "label-md": [
+                            "Inter"
+                    ],
+                    "body-lg": [
+                            "Inter"
+                    ]
+            },
+            "fontSize": {
+                    "headline-lg": [
+                            "30px",
+                            {
+                                    "lineHeight": "36px",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "headline-md": [
+                            "20px",
+                            {
+                                    "lineHeight": "28px",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "body-md": [
+                            "16px",
+                            {
+                                    "lineHeight": "24px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "label-sm": [
+                            "12px",
+                            {
+                                    "lineHeight": "16px",
+                                    "fontWeight": "500"
+                            }
+                    ],
+                    "headline-lg-mobile": [
+                            "24px",
+                            {
+                                    "lineHeight": "30px",
+                                    "letterSpacing": "-0.01em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "label-md": [
+                            "14px",
+                            {
+                                    "lineHeight": "20px",
+                                    "letterSpacing": "0.01em",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "body-lg": [
+                            "18px",
+                            {
+                                    "lineHeight": "26px",
+                                    "fontWeight": "400"
+                            }
+                    ]
+            }
+    },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: theme('colors.background');
+            color: theme('colors.on-background');
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        /* Custom scrollbar for webkit */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: theme('colors.surface-container');
+        }
+        ::-webkit-scrollbar-thumb {
+            background: theme('colors.outline-variant');
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: theme('colors.outline');
+        }
+    </style>
+</head>
+<body class="flex min-h-screen font-body-md text-body-md">
+<!-- SideNavBar (Hidden on Mobile, Visible on Desktop) -->
+<aside class="hidden md:flex h-screen w-64 fixed left-0 top-0 border-r border-outline-variant bg-surface-container-lowest shadow-sm flex-col py-lg px-md transition-all duration-200 ease-in-out z-20">
+<div class="flex items-center gap-sm mb-xl px-sm">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">agriculture</span>
+<div>
+<h1 class="font-headline-md text-headline-md text-primary font-bold">AgriManager Pro</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Modern Farming Solutions</p>
+</div>
+</div>
+<nav class="flex-1 flex flex-col gap-xs">
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+                Dashboard
+            </a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">sunny</span>
+                Weather
+            </a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">trending_up</span>
+                Market Prices
+            </a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">agriculture</span>
+                Crop Health
+            </a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg bg-secondary-container text-on-secondary-container font-bold font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">account_balance</span>
+                Government Schemes
+            </a>
+</nav>
+<div class="mt-auto">
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">settings</span>
+                Settings
+            </a>
+<div class="mt-md pt-md border-t border-outline-variant flex items-center gap-md px-sm">
+<img alt="User profile picture" class="w-10 h-10 rounded-full object-cover bg-surface-container-high" data-alt="A small, circular profile picture of an Indian farmer smiling warmly in a field, well-lit with natural sunlight, portraying trust and experience. Modern, clean aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAN-xuFPtg1rgLUDnMkMno3Ng-Eb25gqv_I2JNw7zrsZcJUGeTkGQKQYbc0rC0GZuNxn3SW9L6vgQ_umhdiMyg1Ilxx5AiO1FB1gsAhjMq0GjN_4dbbk-Y-PkJwwp9HmdHGFM0f09c4dXdGbGUp4HRWQfFp5i0afGHIWWcPMABNtB7nSfD4IwlekK9TSKV0csa-yTwU5bT4QihxcOl61BfUx7Wcq5z67ytXLgNWssO11pZcniyo6E7p">
+<div>
+<p class="font-label-md text-label-md text-on-surface font-semibold">Ramesh Kumar</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Premium Member</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Wrapper -->
+<div class="flex-1 flex flex-col md:ml-64 min-h-screen">
+<!-- TopNavBar -->
+<header class="fixed top-0 right-0 left-0 md:left-64 h-16 bg-surface border-b border-outline-variant flex items-center justify-between px-edge-margin md:px-xl z-10">
+<div class="flex items-center gap-md">
+<!-- Mobile Menu Toggle (Visible only on mobile) -->
+<button class="md:hidden text-on-surface-variant p-sm rounded-lg hover:bg-surface-container-high">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<!-- Search Bar -->
+<div class="relative hidden sm:block w-64 md:w-96">
+<span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full pl-xl pr-md py-sm bg-surface-container-lowest border border-outline-variant rounded-lg font-body-md text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all" placeholder="Search Schemes..." type="text">
+</div>
+</div>
+<div class="flex items-center gap-sm">
+<button class="p-sm text-on-surface-variant hover:text-primary transition-colors focus:outline-none focus-within:ring-2 focus-within:ring-primary rounded-full">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-sm text-on-surface-variant hover:text-primary transition-colors focus:outline-none focus-within:ring-2 focus-within:ring-primary rounded-full">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-1 mt-16 p-edge-margin md:p-lg lg:p-xl overflow-y-auto">
+<!-- Page Header -->
+<div class="mb-lg">
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface font-bold mb-xs">Government Schemes &amp; Subsidies</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Discover and apply for financial assistance programs tailored for you.</p>
+</div>
+<!-- Mobile Search (Visible only on mobile) -->
+<div class="relative sm:hidden w-full mb-lg">
+<span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full pl-xl pr-md py-sm bg-surface-container-lowest border border-outline-variant rounded-lg font-body-md text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all" placeholder="Search Schemes..." type="text">
+</div>
+<!-- Navigation Tabs -->
+<div class="flex border-b border-outline-variant mb-lg overflow-x-auto no-scrollbar">
+<button class="px-md py-sm font-label-md text-label-md text-primary font-bold border-b-2 border-primary whitespace-nowrap">
+                    For You
+                </button>
+<button class="px-md py-sm font-label-md text-label-md text-on-surface-variant hover:text-primary hover:bg-surface-container-lowest transition-colors whitespace-nowrap">
+                    State Schemes
+                </button>
+<button class="px-md py-sm font-label-md text-label-md text-on-surface-variant hover:text-primary hover:bg-surface-container-lowest transition-colors whitespace-nowrap">
+                    Central Schemes
+                </button>
+</div>
+<!-- Filters & Sorting (Optional enhancement for 'filterable grid') -->
+<div class="flex flex-wrap items-center justify-between gap-md mb-lg">
+<div class="flex gap-sm">
+<button class="flex items-center gap-xs px-md py-xs bg-surface-container-lowest border border-outline-variant rounded-full font-label-sm text-label-sm text-on-surface hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-[18px]">filter_list</span>
+                        Filters
+                    </button>
+<span class="px-md py-xs bg-primary-container text-on-primary rounded-full font-label-sm text-label-sm flex items-center gap-xs cursor-pointer">
+                        Agriculture <span class="material-symbols-outlined text-[14px]">close</span>
+</span>
+</div>
+<div class="flex items-center gap-sm">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Sort by:</span>
+<select class="bg-surface-container-lowest border border-outline-variant rounded-lg font-label-sm text-label-sm text-on-surface py-xs pl-sm pr-lg focus:outline-none focus:ring-1 focus:ring-primary">
+<option>Recommended</option>
+<option>Newest</option>
+<option>Deadline Approaching</option>
+</select>
+</div>
+</div>
+<!-- Grid Container (Bento/Card Style) -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-md">
+<!-- Scheme Card 1 -->
+<article class="bg-surface-container-lowest rounded-xl border border-[#f3f4f6] p-md flex flex-col shadow-[0_2px_4px_rgba(0,0,0,0.04)] hover:shadow-md transition-shadow relative overflow-hidden group">
+<div class="absolute top-0 left-0 w-1 h-full bg-primary"></div>
+<div class="flex justify-between items-start mb-sm">
+<div class="w-12 h-12 bg-surface-container rounded-lg flex items-center justify-center p-xs border border-outline-variant">
+<img alt="PM-KISAN Logo" class="w-full h-full object-contain" data-alt="A clean, minimalist abstract logo for a government agriculture scheme, featuring a stylized green leaf and a droplet of water. High contrast, modern design." src="https://lh3.googleusercontent.com/aida-public/AB6AXuClq8XjGPv7X6wTWyvkNiX4QrITwhzrCivpnKQ-wFW9e5HU2PT737-jxLhPfLJ_Mq1KVil9MJ__0XzpkLaDkx9c5yKKMoOpj945cO19dimXf7Eie31Rsm0QZm7tDjYTkZnnpktrm4IBJ237FuUguBNs-Vd68OCK-77N5b0k6IL0uP_J69VIRifYw3L1bC3FypveC1ursVGA9dGTMu-2LtW3LgxYgC3FH2Y77jXMatZGhH_AmfAF7rwm">
+</div>
+<span class="inline-flex items-center px-sm py-xs rounded-full bg-[#d3ffd5] text-[#007230] font-label-sm text-label-sm font-semibold border border-[#7cf994]">
+<span class="material-symbols-outlined text-[14px] mr-xs">check_circle</span>
+                            Eligible
+                        </span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface font-bold mb-xs">PM-KISAN Samman Nidhi</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-md flex-1 line-clamp-3">
+                        Financial benefit of Rs. 6000/- per year in three equal installments to all landholding farmers' families.
+                    </p>
+<div class="mt-auto pt-md border-t border-outline-variant">
+<button class="w-full h-[48px] bg-primary text-on-primary font-label-md text-label-md font-bold rounded-lg hover:bg-surface-tint transition-colors focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                            View Details &amp; Apply
+                        </button>
+</div>
+</article>
+<!-- Scheme Card 2 -->
+<article class="bg-surface-container-lowest rounded-xl border border-[#f3f4f6] p-md flex flex-col shadow-[0_2px_4px_rgba(0,0,0,0.04)] hover:shadow-md transition-shadow relative overflow-hidden group">
+<div class="absolute top-0 left-0 w-1 h-full bg-[#f59e0b]"></div>
+<div class="flex justify-between items-start mb-sm">
+<div class="w-12 h-12 bg-surface-container rounded-lg flex items-center justify-center p-xs border border-outline-variant">
+<img alt="PMFBY Logo" class="w-full h-full object-contain" data-alt="A clean, minimalist abstract logo for a crop insurance scheme, featuring a stylized shield protecting growing crops. Warm colors, modern flat design." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAw17fPLmypG15yUXRnvxbHb7DwBhRW7zA0RpL0RkixWohs3sWkxf6U2_YDqsdmIHqY-K9LdWjOqyivP2rnMPHcKWz3zgkbwrwJ3yorQ4-fXk-XQCf18cI7OJwPWdKbW3cH-sF4mSsHfkj_yNvz0LsY4Aojc9geLfl38l4BHJ5A5mmsx8MN0QHTy3YW_v8MDSdwHe3xQPBnlX1wpnoiT2_Z2G3SCWGUcckoawUdyKWamEaoWDKoRdKk">
+</div>
+<span class="inline-flex items-center px-sm py-xs rounded-full bg-[#fff7ed] text-[#ea580c] font-label-sm text-label-sm font-semibold border border-[#fed7aa]">
+<span class="material-symbols-outlined text-[14px] mr-xs">help</span>
+                            Check Eligibility
+                        </span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface font-bold mb-xs">PM Fasal Bima Yojana</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-md flex-1 line-clamp-3">
+                        Comprehensive crop insurance from pre-sowing to post-harvest losses against non-preventable natural risks.
+                    </p>
+<div class="mt-auto pt-md border-t border-outline-variant">
+<button class="w-full h-[48px] bg-surface-container-lowest text-primary border border-primary font-label-md text-label-md font-bold rounded-lg hover:bg-surface-container-high transition-colors focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                            View Details
+                        </button>
+</div>
+</article>
+<!-- Scheme Card 3 -->
+<article class="bg-surface-container-lowest rounded-xl border border-[#f3f4f6] p-md flex flex-col shadow-[0_2px_4px_rgba(0,0,0,0.04)] hover:shadow-md transition-shadow relative overflow-hidden group">
+<div class="absolute top-0 left-0 w-1 h-full bg-primary"></div>
+<div class="flex justify-between items-start mb-sm">
+<div class="w-12 h-12 bg-surface-container rounded-lg flex items-center justify-center p-xs border border-outline-variant">
+<img alt="AIF Logo" class="w-full h-full object-contain" data-alt="A clean, minimalist abstract logo for an agricultural infrastructure fund, featuring a stylized tractor and barn. Modern geometric aesthetic, high contrast." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBk8ikNCfpWMQQSCLAP6pQtzxzgEnWinU10YCPeFfAV0cQjsSIsx2sc-KOCJJjuzQLgqxZSzrxFLg8_dnI1xl1I8uSoz4JQdmegfKyTid53FAfbP3Ctl6Z4gsIkdk2sOJD4ixs4BjKDjkW5mXbhnxBKlxo-RUHZfX1Q6JSej3HRqX17h72NeixGOsuRQyupbGv5uAMthfuMTqq5ephBG4qt27QE8KUb1CUdIUzhjaqi3DPFGBGBGcgB">
+</div>
+<span class="inline-flex items-center px-sm py-xs rounded-full bg-[#d3ffd5] text-[#007230] font-label-sm text-label-sm font-semibold border border-[#7cf994]">
+<span class="material-symbols-outlined text-[14px] mr-xs">check_circle</span>
+                            Eligible
+                        </span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface font-bold mb-xs">Agriculture Infrastructure Fund</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-md flex-1 line-clamp-3">
+                        Medium-long term debt financing facility for investment in viable projects for post-harvest management Infrastructure.
+                    </p>
+<div class="mt-auto pt-md border-t border-outline-variant">
+<button class="w-full h-[48px] bg-primary text-on-primary font-label-md text-label-md font-bold rounded-lg hover:bg-surface-tint transition-colors focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                            View Details &amp; Apply
+                        </button>
+</div>
+</article>
+<!-- Scheme Card 4 -->
+<article class="bg-surface-container-lowest rounded-xl border border-[#f3f4f6] p-md flex flex-col shadow-[0_2px_4px_rgba(0,0,0,0.04)] hover:shadow-md transition-shadow relative overflow-hidden group">
+<div class="absolute top-0 left-0 w-1 h-full bg-outline"></div>
+<div class="flex justify-between items-start mb-sm">
+<div class="w-12 h-12 bg-surface-container rounded-lg flex items-center justify-center p-xs border border-outline-variant">
+<span class="material-symbols-outlined text-[32px] text-on-surface-variant">water_drop</span>
+</div>
+<span class="inline-flex items-center px-sm py-xs rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm font-semibold border border-outline-variant">
+<span class="material-symbols-outlined text-[14px] mr-xs">cancel</span>
+                            Not Eligible
+                        </span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface font-bold mb-xs">PM Krishi Sinchayee Yojana</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-md flex-1 line-clamp-3">
+                        Focuses on enhancing physical access of water on farm and expanding cultivable area under assured irrigation.
+                    </p>
+<div class="mt-auto pt-md border-t border-outline-variant">
+<button class="w-full h-[48px] bg-surface-container-lowest text-on-surface-variant border border-outline-variant font-label-md text-label-md font-bold rounded-lg hover:bg-surface-container-high transition-colors focus:ring-2 focus:ring-offset-2 focus:ring-outline" disabled="">
+                            Review Criteria
+                        </button>
+</div>
+</article>
+</div>
+</main>
+</div>
+</body></html>
