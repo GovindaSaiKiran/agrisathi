@@ -634,7 +634,7 @@ function serveStatic(requestUrl, response) {
   });
 }
 
-const server = http.createServer((request, response) => {
+const requestHandler = (request, response) => {
   const requestUrl = new URL(request.url, `http://${request.headers.host}`);
 
   if (request.method === "GET" && requestUrl.pathname === "/api/weather") {
@@ -669,8 +669,13 @@ const server = http.createServer((request, response) => {
 
   response.writeHead(405);
   response.end("Method not allowed");
-});
+};
 
-server.listen(PORT, () => {
-  console.log(`AgriSaathi app running at http://localhost:${PORT}`);
-});
+if (require.main === module) {
+  const server = http.createServer(requestHandler);
+  server.listen(PORT, () => {
+    console.log(`AgriSaathi app running at http://localhost:${PORT}`);
+  });
+} else {
+  module.exports = requestHandler;
+}
