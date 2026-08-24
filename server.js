@@ -471,7 +471,7 @@ async function handleChat(request, response) {
     const data = await geminiResponse.json();
     const reply = data.candidates?.[0]?.content?.parts?.map((part) => part.text || "").join("").trim();
 
-    sendJson(response, 200, { reply: reply || fallbackReply(message, weatherPayload) });
+    sendJson(response, 200, { reply: reply || "ERROR: Received empty response from Gemini AI." });
   } catch (error) {
     console.error("Chat processing error:", error);
     sendJson(response, 500, { error: "Unable to process chat message." });
