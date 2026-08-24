@@ -410,7 +410,7 @@ async function handleChat(request, response) {
     }
 
     if (!process.env.GEMINI_API_KEY) {
-      sendJson(response, 200, { reply: fallbackReply(message, weatherPayload) });
+      sendJson(response, 200, { reply: "ERROR: GEMINI_API_KEY environment variable is missing on Vercel. Please add it in your Vercel Dashboard Settings." });
       return;
     }
 
@@ -464,7 +464,7 @@ async function handleChat(request, response) {
     if (!geminiResponse.ok) {
       const errBody = await geminiResponse.text().catch(() => "Unable to read error body");
       console.error(`Gemini API Error: ${geminiResponse.status} ${geminiResponse.statusText}`, errBody);
-      sendJson(response, 200, { reply: fallbackReply(message, weatherPayload) });
+      sendJson(response, 200, { reply: `ERROR from Gemini API (Status ${geminiResponse.status}): ${errBody.substring(0, 150)}... Check Vercel logs for full details.` });
       return;
     }
 
