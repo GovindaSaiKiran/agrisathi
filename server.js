@@ -27,7 +27,7 @@ try {
 
 const PORT = Number(process.env.PORT || 5174);
 const STATIC_ROOT = path.join(__dirname, "stitch_agrisaathi_mobile_dashboard_replicated");
-const GEMINI_MODEL = process.env.GEMINI_MODEL || "gemini-2.5-flash";
+const GEMINI_MODEL = process.env.GEMINI_MODEL || "gemini-3.7-flash";
 
 const mimeTypes = {
   ".html": "text/html; charset=utf-8",
@@ -521,7 +521,7 @@ Format your response strictly as JSON with exactly these keys:
 ${paddyKnowledge}
 -------------------------------`;
 
-    const modelName = process.env.GEMINI_MODEL || "gemini-2.5-flash";
+    const modelName = GEMINI_MODEL;
     const geminiResponse = await fetch(
       `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent`,
       {
