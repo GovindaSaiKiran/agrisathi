@@ -1171,9 +1171,11 @@ function updateSidebarProfile() {
   const nameEl = document.getElementById("sidebar-name");
   const detailsEl = document.getElementById("sidebar-details");
   const avatarEl = document.getElementById("sidebar-avatar");
+  const dashboardFarmDetailsEl = document.getElementById("dashboard-farm-details");
   
   if (nameEl) nameEl.textContent = farmerProfile.name;
   if (detailsEl) detailsEl.textContent = `${farmerProfile.landSize} acres • ${farmerProfile.crop}`;
+  if (dashboardFarmDetailsEl) dashboardFarmDetailsEl.textContent = `${farmerProfile.crop} field, ${farmerProfile.landSize} acres`;
   if (avatarEl) {
     // Get initials (first letter of first and last word)
     const parts = farmerProfile.name.trim().split(" ");
