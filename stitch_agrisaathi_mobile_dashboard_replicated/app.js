@@ -434,6 +434,7 @@ const cropSelector = document.getElementById("crop-selector");
 const diagnosisCard = document.getElementById("diagnosis-card");
 
 let currentCropImageBase64 = null;
+let currentCropImageMimeType = null;
 
 if (cropImageUpload) {
   cropImageUpload.addEventListener("change", (e) => {
@@ -444,6 +445,7 @@ if (cropImageUpload) {
       analyzeButton.disabled = false;
       const reader = new FileReader();
       reader.onload = (ev) => {
+        currentCropImageMimeType = file.type;
         currentCropImageBase64 = ev.target.result.split(",")[1];
       };
       reader.readAsDataURL(file);
@@ -469,6 +471,7 @@ if (cropImageUpload) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           image: currentCropImageBase64,
+          mimeType: currentCropImageMimeType,
           cropName: cropSelector.value
         })
       });

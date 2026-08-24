@@ -481,30 +481,49 @@ async function handleChat(request, response) {
 async function handleCropAnalysis(request, response) {
   try {
     const body = JSON.parse(await readBody(request));
-    const { image, cropName } = body;
+    const { image, cropName, mimeType } = body;
 
     if (!image || !cropName) {
       sendJson(response, 400, { error: "Image and cropName are required." });
       return;
     }
+    
+    const validMimeTypes = ["image/jpeg", "image/png", "image/webp", "image/avif", "image/heic"];
+    const detectedMimeType = mimeType || "image/jpeg";
+    if (!validMimeTypes.includes(detectedMimeType)) {
+      sendJson(response, 400, { error: `Unsupported image format: ${detectedMimeType}` });
+      return;
+    }
 
     if (!process.env.GEMINI_API_KEY) {
-      sendJson(response, 500, { error: "Gemini API key is missing." });
+      console.error("Gemini API key is missing.");
+      sendJson(response, 401, { error: "Gemini API key is not configured." });
       return;
     }
 
     const prompt = `Analyze this image of a ${cropName} crop. Use the Official Knowledge Base provided below to identify any diseases, pests, or deficiencies. 
 
-Provide a short health report, mention any identified diseases or deficiencies, and suggest specific fertilizers or pesticides exactly as recommended in the Knowledge Base. If the symptom is ambiguous, state that the confidence is low and suggest what the farmer should check manually.
+Provide a highly structured health report. If the symptom is ambiguous, state that the confidence is low and suggest what the farmer should check manually. Do not invent exact pesticide/fertilizer dosage when the available agricultural evidence does not support it.
 
-Format your response strictly as JSON with exactly three keys: "title" (string, short diagnosis title), "description" (string, the detailed report), and "suggestions" (array of strings, e.g., ["Apply Urea", "Foliar N Spray"]).
+Format your response strictly as JSON with exactly these keys:
+- "crop" (string, the identified crop)
+- "overall health" (string, short summary)
+- "possible issue" (string, the diagnosed issue or "None")
+- "observed symptoms" (string)
+- "possible causes" (string)
+- "recommended next steps" (string)
+- "fertilizer recommendation" (string, if justified)
+- "pest/disease management" (string, if justified)
+- "confidence" (string, e.g., "High", "Medium", "Low")
+- "warning" (string, e.g., "This image analysis is advisory and should be verified for chemical treatment decisions.")
 
 --- OFFICIAL KNOWLEDGE BASE ---
 ${paddyKnowledge}
 -------------------------------`;
 
+    const modelName = process.env.GEMINI_MODEL || "gemini-2.5-flash";
     const geminiResponse = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`,
+      `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent`,
       {
         method: "POST",
         headers: {
@@ -519,7 +538,7 @@ ${paddyKnowledge}
                 { text: prompt },
                 {
                   inlineData: {
-                    mimeType: "image/jpeg",
+                    mimeType: detectedMimeType,
                     data: image,
                   },
                 },
@@ -543,8 +562,15 @@ ${paddyKnowledge}
 
     if (!geminiResponse.ok) {
       const errBody = await geminiResponse.text().catch(() => "Unable to read error");
-      console.error("Gemini Vision API Error:", geminiResponse.status, errBody);
-      sendJson(response, 500, { error: "Failed to analyze image." });
+      console.error(`Gemini API Error: ${geminiResponse.status}`, errBody);
+      
+      let statusCode = 500;
+      if (geminiResponse.status === 400) statusCode = 400;
+      else if (geminiResponse.status === 401 || geminiResponse.status === 403) statusCode = 401;
+      else if (geminiResponse.status === 404) statusCode = 404;
+      else if (geminiResponse.status === 429) statusCode = 429;
+      
+      sendJson(response, statusCode, { error: `Gemini API failed with status ${geminiResponse.status}` });
       return;
     }
 
@@ -553,8 +579,20 @@ ${paddyKnowledge}
     
     let result;
     try {
-      result = JSON.parse(replyText);
+      const parsed = JSON.parse(replyText);
+      // Map the detailed response to the frontend's expected format to avoid redesigning UI
+      result = {
+        title: parsed["possible issue"] !== "None" ? parsed["possible issue"] : "Crop looks healthy",
+        description: `${parsed["overall health"]} ${parsed["observed symptoms"]} ${parsed["warning"]}`,
+        suggestions: [
+          parsed["recommended next steps"],
+          parsed["fertilizer recommendation"],
+          parsed["pest/disease management"],
+          `Confidence: ${parsed["confidence"]}`
+        ].filter(Boolean)
+      };
     } catch (e) {
+      console.error("Failed to parse Gemini JSON:", e);
       result = { title: "Analysis Complete", description: replyText, suggestions: [] };
     }
 
@@ -636,6 +674,11 @@ function serveStatic(requestUrl, response) {
 
 const requestHandler = (request, response) => {
   const requestUrl = new URL(request.url, `http://${request.headers.host}`);
+
+  if (request.method === "GET" && requestUrl.pathname === "/api/health") {
+    sendJson(response, 200, { status: "ok", service: "AgriSaathi API" });
+    return;
+  }
 
   if (request.method === "GET" && requestUrl.pathname === "/api/weather") {
     handleWeather(requestUrl, response);
