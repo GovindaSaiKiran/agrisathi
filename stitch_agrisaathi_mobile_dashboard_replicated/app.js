@@ -322,12 +322,24 @@ function loadWeatherForCurrentPosition() {
         weatherStatus.textContent = "Unable to load live weather. Showing saved sample data.";
       });
     },
-    () => {
-      fetchWeather(DEFAULT_LOCATION).catch(() => {
-        weatherStatus.textContent = "Location permission was unavailable and live weather could not load.";
+    (error) => {
+      let errorMsg = "Location permission was unavailable";
+      if (error.code === 1) {
+        errorMsg = "Location permission denied. Please allow location access in your browser settings (click the icon in the URL bar).";
+        alert(errorMsg);
+      } else if (error.code === 2) {
+        errorMsg = "Location unavailable. The browser could not determine your position.";
+      } else if (error.code === 3) {
+        errorMsg = "Location request timed out. Please try again.";
+      }
+
+      fetchWeather(DEFAULT_LOCATION).then(() => {
+        weatherStatus.textContent = errorMsg + " Showing default location.";
+      }).catch(() => {
+        weatherStatus.textContent = errorMsg + " and live weather could not load.";
       });
     },
-    { enableHighAccuracy: true, timeout: 8000, maximumAge: 0 },
+    { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 },
   );
 }
 
