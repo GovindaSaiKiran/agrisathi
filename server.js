@@ -27,7 +27,7 @@ try {
 
 const PORT = Number(process.env.PORT || 5174);
 const STATIC_ROOT = path.join(__dirname, "stitch_agrisaathi_mobile_dashboard_replicated");
-const GEMINI_MODEL = process.env.GEMINI_MODEL || "gemini-2.0-flash";
+const GEMINI_MODEL = process.env.GEMINI_MODEL || "gemini-2.5-flash";
 
 const mimeTypes = {
   ".html": "text/html; charset=utf-8",
