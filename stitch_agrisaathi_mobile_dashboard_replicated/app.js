@@ -5,6 +5,7 @@ const pageTitles = {
   crop: "Crop Health Lab",
   schemes: "Schemes & Subsidies",
   news: "Farming News",
+  profile: "Farmer Profile",
 };
 
 const DEFAULT_LOCATION = {
@@ -829,14 +830,57 @@ function copyArticleLink(link) {
   });
 }
 
+// --- Save & Share Features ---
+window.savedNews = JSON.parse(localStorage.getItem('agrisaathi_saved_news')) || [];
+
+window.toggleSaveArticle = function(encodedArticle) {
+  const article = JSON.parse(decodeURIComponent(encodedArticle));
+  const index = window.savedNews.findIndex(a => a.link === article.link && a.title === article.title);
+  
+  let isSaved = false;
+  if (index === -1) {
+    window.savedNews.unshift(article);
+    showNewsToast('Saved to your reading list!');
+    isSaved = true;
+  } else {
+    window.savedNews.splice(index, 1);
+    showNewsToast('Removed from reading list!');
+  }
+  localStorage.setItem('agrisaathi_saved_news', JSON.stringify(window.savedNews));
+  
+  if (activeNewsCategory === "saved") {
+    renderNewsUI();
+  }
+  return isSaved;
+};
+
+window.shareNewsArticle = function(title, text, url) {
+  title = decodeURIComponent(title);
+  text = decodeURIComponent(text);
+  url = decodeURIComponent(url);
+  
+  if (navigator.share) {
+    navigator.share({ title, text, url }).catch(console.error);
+  } else {
+    copyArticleLink(url);
+  }
+};
+
+
 function renderNewsUI() {
   const heroContainer = document.getElementById("news-hero-container");
   const cardsGrid = document.getElementById("news-cards-grid");
   const countLabel = document.getElementById("news-results-count");
   if (!cardsGrid) return;
 
+  let sourceArray = activeNewsCategory === "saved" ? window.savedNews : allNewsArticles;
+
   // Filter articles by category and search query
-  let filtered = allNewsArticles.filter(art => {
+  let filtered = sourceArray.filter(art => {
+    if (activeNewsCategory === "saved") {
+      const query = newsSearchQuery.toLowerCase().trim();
+      return !query || art.title.toLowerCase().includes(query) || (art.description && art.description.toLowerCase().includes(query));
+    }
     const meta = getCategoryMeta(art.category, art.title, art.description);
     const matchesCat = (activeNewsCategory === "all") ||
       (activeNewsCategory === "subsidy" && meta.class.includes("subsidy")) ||
@@ -854,7 +898,7 @@ function renderNewsUI() {
   });
 
   if (countLabel) {
-    countLabel.textContent = `Showing ${filtered.length} of ${allNewsArticles.length} updates`;
+    countLabel.textContent = `Showing ${filtered.length} of ${sourceArray.length} updates`;
   }
 
   if (filtered.length === 0) {
@@ -899,7 +943,7 @@ function renderNewsUI() {
               <span>⚡ High Farmer Impact</span>
             </div>
             <div style="display: flex; gap: 12px;">
-              <button class="news-icon-btn" onclick="copyArticleLink('${hero.link || '#'}')" title="Share Story" style="background: rgba(255,255,255,0.2); color: white;">
+              <button class="news-icon-btn" onclick="shareNewsArticle(encodeURIComponent('${(hero.title || '').replace(/'/g, "\\'")}'), encodeURIComponent('${(hero.description || '').replace(/'/g, "\\'")}'), encodeURIComponent('${hero.link || '#'}'))" title="Share Story" style="background: rgba(255,255,255,0.2); color: white;">
                 <span class="material-symbols-outlined" style="font-size: 18px;">share</span>
               </button>
               <a href="${hero.link || '#'}" target="_blank" class="news-hero-btn">
@@ -946,10 +990,10 @@ function renderNewsUI() {
             ${timeAgo}
           </span>
           <div class="news-card-actions">
-            <button class="news-icon-btn" onclick="this.querySelector('.material-symbols-outlined').textContent = (this.querySelector('.material-symbols-outlined').textContent === 'bookmark' ? 'bookmark_border' : 'bookmark'); showNewsToast('Saved to your reading list!');" title="Bookmark">
-              <span class="material-symbols-outlined" style="font-size: 17px;">bookmark_border</span>
+            <button class="news-icon-btn" onclick="const isSaved = toggleSaveArticle('${encodeURIComponent(JSON.stringify(article)).replace(/'/g, "%27")}'); this.querySelector('.material-symbols-outlined').textContent = isSaved ? 'bookmark' : 'bookmark_border';" title="Bookmark">
+              <span class="material-symbols-outlined" style="font-size: 17px;">${window.savedNews.some(a => a.link === article.link) ? 'bookmark' : 'bookmark_border'}</span>
             </button>
-            <button class="news-icon-btn" onclick="copyArticleLink('${safeLink}')" title="Share Story">
+            <button class="news-icon-btn" onclick="shareNewsArticle(encodeURIComponent('${(article.title || '').replace(/'/g, "\\'")}'), encodeURIComponent('${(article.description || '').replace(/'/g, "\\'")}'), encodeURIComponent('${safeLink}'))" title="Share Story">
               <span class="material-symbols-outlined" style="font-size: 17px;">share</span>
             </button>
             <a href="${safeLink}" target="_blank" class="news-read-btn">
@@ -1071,3 +1115,160 @@ if (notificationBtn && notificationDropdown) {
     }
   });
 }
+
+// --- Farmer Profile & Schemes Eligibility Logic ---
+const defaultProfile = {
+  name: "Ramesh Kumar",
+  contact: "",
+  workingType: "Landowner",
+  crop: "Paddy",
+  landSize: 3.2,
+  income: 150000,
+  location: "Guntur, Andhra Pradesh"
+};
+
+let farmerProfile = { ...defaultProfile };
+
+function initProfile() {
+  const saved = localStorage.getItem("agrisaathi_profile");
+  if (saved) {
+    try {
+      farmerProfile = { ...defaultProfile, ...JSON.parse(saved) };
+    } catch (e) {
+      console.error("Failed to parse profile data");
+    }
+  }
+  
+  // Populate form
+  const form = document.getElementById("profile-form");
+  if (form) {
+    document.getElementById("profile-name").value = farmerProfile.name;
+    document.getElementById("profile-contact").value = farmerProfile.contact || "";
+    document.getElementById("profile-working-type").value = farmerProfile.workingType;
+    document.getElementById("profile-crop").value = farmerProfile.crop;
+    document.getElementById("profile-land-size").value = farmerProfile.landSize;
+    document.getElementById("profile-income").value = farmerProfile.income;
+    document.getElementById("profile-location").value = farmerProfile.location;
+  }
+  
+  updateSidebarProfile();
+  evaluateSchemesEligibility();
+}
+
+function updateSidebarProfile() {
+  const nameEl = document.getElementById("sidebar-name");
+  const detailsEl = document.getElementById("sidebar-details");
+  const avatarEl = document.getElementById("sidebar-avatar");
+  
+  if (nameEl) nameEl.textContent = farmerProfile.name;
+  if (detailsEl) detailsEl.textContent = `${farmerProfile.landSize} acres • ${farmerProfile.crop}`;
+  if (avatarEl) {
+    // Get initials (first letter of first and last word)
+    const parts = farmerProfile.name.trim().split(" ");
+    let initials = parts[0].charAt(0);
+    if (parts.length > 1) {
+      initials += parts[parts.length - 1].charAt(0);
+    }
+    avatarEl.textContent = initials.toUpperCase();
+  }
+  
+  // Update topbar location if changed in profile
+  const locationLabel = document.getElementById("location-label");
+  if (locationLabel && farmerProfile.location) {
+    locationLabel.textContent = farmerProfile.location;
+  }
+}
+
+function evaluateSchemesEligibility() {
+  const isSmallFarmer = farmerProfile.landSize <= 5; // Acres
+  const isLowIncome = farmerProfile.income <= 250000;
+  
+  const schemes = document.querySelectorAll(".scheme-card");
+  schemes.forEach(card => {
+    const name = card.dataset.schemeName || "";
+    const header = card.querySelector(".scheme-card-header");
+    let isEligible = true;
+    
+    // PM-KISAN & Maan-Dhan eligibility rules
+    if (name.includes("pm-kisan") || name.includes("maan dhan") || name.includes("pm kisan")) {
+      isEligible = isSmallFarmer;
+    }
+    
+    // Some subsidies might be restricted based on working type or income
+    if (name.includes("aif") || name.includes("agriculture infrastructure")) {
+       // Just as an example, large infrastructure might be for any
+       isEligible = true;
+    }
+    
+    const badge = header.querySelector(".scheme-badge");
+    const linkBtn = card.querySelector(".scheme-card-footer a");
+    
+    if (isEligible) {
+      card.classList.remove("not-eligible");
+      // Restore standard colors if needed, assuming the CSS does this.
+      if (badge) {
+        // Change text back if it was modified
+        if (badge.textContent.includes("Not Eligible")) {
+           const originalText = card.dataset.originalBadgeText || "Pre-Eligible";
+           const originalIcon = card.dataset.originalBadgeIcon || "check_circle";
+           badge.innerHTML = `<span class="material-symbols-outlined" style="font-size: 14px;">${originalIcon}</span> ${originalText}`;
+           badge.className = card.dataset.originalBadgeClass || "scheme-badge scheme-badge-green";
+        }
+      }
+    } else {
+      card.classList.add("not-eligible");
+      if (badge && !badge.textContent.includes("Not Eligible")) {
+        // Save originals
+        if (!card.dataset.originalBadgeText) {
+          card.dataset.originalBadgeText = badge.textContent.trim();
+          card.dataset.originalBadgeClass = badge.className;
+          const iconEl = badge.querySelector(".material-symbols-outlined");
+          card.dataset.originalBadgeIcon = iconEl ? iconEl.textContent : "info";
+        }
+        
+        badge.innerHTML = `<span class="material-symbols-outlined" style="font-size: 14px;">cancel</span> Not Eligible`;
+        badge.className = "scheme-badge scheme-badge-neutral";
+        badge.style.background = "var(--surface-mid)";
+        badge.style.color = "var(--muted)";
+      }
+      
+      // Make the apply button greyed out
+      if (linkBtn) {
+        linkBtn.style.background = "var(--surface-low)";
+        linkBtn.style.color = "var(--muted)";
+        linkBtn.style.pointerEvents = "none";
+      }
+    }
+  });
+}
+
+const profileForm = document.getElementById("profile-form");
+if (profileForm) {
+  profileForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    farmerProfile = {
+      name: document.getElementById("profile-name").value.trim(),
+      contact: document.getElementById("profile-contact").value.trim(),
+      workingType: document.getElementById("profile-working-type").value,
+      crop: document.getElementById("profile-crop").value.trim(),
+      landSize: parseFloat(document.getElementById("profile-land-size").value) || 0,
+      income: parseFloat(document.getElementById("profile-income").value) || 0,
+      location: document.getElementById("profile-location").value.trim(),
+    };
+    
+    localStorage.setItem("agrisaathi_profile", JSON.stringify(farmerProfile));
+    updateSidebarProfile();
+    evaluateSchemesEligibility();
+    
+    // Show toast
+    const toast = document.getElementById("news-toast");
+    if (toast) {
+      toast.textContent = "Profile saved successfully!";
+      toast.classList.add("show");
+      setTimeout(() => toast.classList.remove("show"), 3000);
+    }
+  });
+}
+
+// Initialize on load
+initProfile();

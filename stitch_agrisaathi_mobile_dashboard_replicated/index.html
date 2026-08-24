@@ -46,13 +46,17 @@
             <span class="material-symbols-outlined">newspaper</span>
             <span>News</span>
           </button>
+          <button class="nav-item" type="button" data-page-target="profile">
+            <span class="material-symbols-outlined">person</span>
+            <span>Profile</span>
+          </button>
         </nav>
 
         <div class="farmer-card">
-          <div class="avatar" aria-hidden="true">RK</div>
+          <div class="avatar" aria-hidden="true" id="sidebar-avatar">RK</div>
           <div>
-            <strong>Ramesh Kumar</strong>
-            <small>3.2 acres • Paddy</small>
+            <strong id="sidebar-name">Ramesh Kumar</strong>
+            <small id="sidebar-details">3.2 acres • Paddy</small>
           </div>
         </div>
       </aside>
@@ -695,6 +699,10 @@
                   <span class="material-symbols-outlined" style="font-size: 16px;">explore</span>
                   All News
                 </button>
+                <button class="news-cat-chip" data-category="saved">
+                  <span class="material-symbols-outlined" style="font-size: 16px;">bookmark</span>
+                  Saved News
+                </button>
                 <button class="news-cat-chip" data-category="subsidy">
                   <span class="material-symbols-outlined" style="font-size: 16px;">account_balance</span>
                   Schemes & Subsidies
@@ -728,6 +736,62 @@
               </div>
             </div>
           </section>
+
+          <!-- Profile Page -->
+          <section class="page" data-page="profile" aria-labelledby="profile-title">
+            <div class="page-heading">
+              <div>
+                <p class="eyebrow">Settings</p>
+                <h2 id="profile-title">Farmer Profile</h2>
+              </div>
+            </div>
+            
+            <div class="profile-layout" style="max-width: 600px;">
+              <article class="card">
+                <form id="profile-form">
+                  <div class="form-group">
+                    <label class="form-label" for="profile-name">Full Name</label>
+                    <input type="text" id="profile-name" class="input-control" value="Ramesh Kumar" required />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="profile-contact">Contact Number</label>
+                    <input type="tel" id="profile-contact" class="input-control" value="" placeholder="e.g. +91 9876543210" />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="profile-working-type">Working Type</label>
+                    <select id="profile-working-type" class="input-control" required>
+                      <option value="Landowner">Landowner</option>
+                      <option value="Tenant Farmer">Tenant Farmer</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="profile-crop">Primary Crop</label>
+                    <input type="text" id="profile-crop" class="input-control" value="Paddy" required />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="profile-land-size">Land Size (acres)</label>
+                    <input type="number" id="profile-land-size" class="input-control" step="0.1" value="3.2" required />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="profile-income">Annual Income (₹)</label>
+                    <input type="number" id="profile-income" class="input-control" value="150000" required />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="profile-location">Location</label>
+                    <input type="text" id="profile-location" class="input-control" value="Guntur, Andhra Pradesh" required />
+                  </div>
+                  
+                  <div class="form-actions" style="margin-top: 24px;">
+                    <button type="submit" class="primary-button" style="width: 100%;">
+                      <span class="material-symbols-outlined">save</span>
+                      Save Profile
+                    </button>
+                  </div>
+                </form>
+              </article>
+            </div>
+          </section>
+
           <div class="news-toast" id="news-toast">Link copied to clipboard!</div>
         </main>
       </div>
@@ -767,6 +831,7 @@
       <button type="button" data-page-target="markets"><span class="material-symbols-outlined">storefront</span><small>Markets</small></button>
       <button type="button" data-page-target="crop"><span class="material-symbols-outlined">biotech</span><small>Crop</small></button>
       <button type="button" data-page-target="schemes"><span class="material-symbols-outlined">account_balance</span><small>Schemes</small></button>
+      <button type="button" data-page-target="profile"><span class="material-symbols-outlined">person</span><small>Profile</small></button>
     </nav>
 
     <script src="app.js"></script>

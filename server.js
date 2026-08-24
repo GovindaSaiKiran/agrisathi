@@ -206,6 +206,29 @@ async function fetchOpenMeteo(lat, lon) {
   return { current, forecast: { list: forecastList } };
 }
 
+async function fetchOpenWeatherOrMeteo(lat, lon) {
+  const apiKey = process.env.OPENWEATHER_API_KEY_1 || process.env.OPENWEATHER_API_KEY_2;
+  if (apiKey && apiKey.trim() !== "" && !apiKey.includes("your_")) {
+    try {
+      const currentRes = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`);
+      const forecastRes = await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`);
+      
+      if (currentRes.ok && forecastRes.ok) {
+        const current = await currentRes.json();
+        const forecast = await forecastRes.json();
+        return { current, forecast };
+      } else {
+        console.warn("OpenWeather API request failed with status:", currentRes.status, forecastRes.status);
+      }
+    } catch (e) {
+      console.error("OpenWeather API fetch error:", e);
+    }
+  }
+  
+  // Fallback to free Open-Meteo API
+  return await fetchOpenMeteo(lat, lon);
+}
+
 function summarizeWeather(weatherPayload) {
   if (!weatherPayload) return "Live weather is not loaded yet.";
 
@@ -251,23 +274,35 @@ async function handleNews(request, response) {
     return;
   }
 
-  const apiKey = process.env.NEWS_API_KEY || "YOUR_API_KEY";
+  const apiKey = process.env.PERIGON_API_KEY;
   
-  if (apiKey !== "YOUR_API_KEY") {
+  if (apiKey) {
     try {
-      const url = `https://newsdata.io/api/1/latest?apikey=${apiKey}&q=agriculture&language=en`;
+      const url = `https://api.goperigon.com/v1/all?apiKey=${apiKey}&q=agriculture+OR+farming+OR+crop&country=in&sortBy=date`;
       const res = await fetch(url);
       if (res.ok) {
         const data = await res.json();
-        newsCache = data;
+        
+        // Map Perigon format to the expected frontend format
+        const results = (data.articles || []).map(article => ({
+          title: article.title,
+          description: article.description || article.summary || "",
+          pubDate: article.pubDate,
+          source_id: article.source?.domain || "News Source",
+          category: "all",
+          link: article.url
+        }));
+
+        const payload = { status: "success", results };
+        newsCache = payload;
         newsCacheTime = Date.now();
-        sendJson(response, 200, data);
+        sendJson(response, 200, payload);
         return;
       } else {
-        console.warn(`newsdata.io returned ${res.status}: ${await res.text()}`);
+        console.warn(`Perigon returned ${res.status}: ${await res.text()}`);
       }
     } catch (e) {
-      console.error("News fetch error", e);
+      console.error("Perigon News fetch error", e);
     }
   }
   
@@ -281,7 +316,7 @@ async function handleNews(request, response) {
         pubDate: new Date(Date.now() - 1000 * 60 * 45).toISOString(), // 45 mins ago
         source_id: "Ministry of Agriculture",
         category: "subsidy",
-        link: "https://pmksy.gov.in/"
+        link: "https://agricoop.gov.in/"
       },
       {
         title: "Kharif Season Minimum Support Price (MSP) Hiked for Paddy, Cotton, and Pulses",
@@ -337,7 +372,7 @@ async function handleWeather(requestUrl, response) {
   }
 
   try {
-    sendJson(response, 200, await fetchOpenMeteo(lat, lon));
+    sendJson(response, 200, await fetchOpenWeatherOrMeteo(lat, lon));
   } catch (error) {
     sendJson(response, 502, { error: "Unable to load live weather." });
   }
@@ -358,7 +393,7 @@ async function handleChat(request, response) {
 
     if (Number.isFinite(Number(location.lat)) && Number.isFinite(Number(location.lon))) {
       try {
-        const live = await fetchOpenMeteo(location.lat, location.lon);
+        const live = await fetchOpenWeatherOrMeteo(location.lat, location.lon);
         const current = live.current;
         const nextRainChance = Math.round(Math.max(...live.forecast.list.slice(0, 8).map((entry) => entry.pop || 0)) * 100);
         weatherPayload = {
