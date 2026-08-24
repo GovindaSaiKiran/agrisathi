@@ -327,7 +327,7 @@ function loadWeatherForCurrentPosition() {
         weatherStatus.textContent = "Location permission was unavailable and live weather could not load.";
       });
     },
-    { enableHighAccuracy: true, timeout: 8000, maximumAge: 600000 },
+    { enableHighAccuracy: true, timeout: 8000, maximumAge: 0 },
   );
 }
 
